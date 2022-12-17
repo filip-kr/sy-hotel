@@ -4,9 +4,9 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{{ path('homepage')}}">Početna</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{path('homepage')}}">Početna</a></li>
                 {% if app.user is null %}
-                    <li class="nav-item"><a class="nav-link" href="{{ path('login')}}">Prijava</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{path('login')}}">Prijava</a></li>
                 {% else %}
                     <li class="nav-item"><a class="nav-link" href="#">Nadzorna ploča</a></li>
                     <li class="nav-item dropdown">
@@ -20,7 +20,7 @@
                     </li>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ path('logout')}}">Odjava</a>
+                        <a class="nav-link active" href="{{path('logout')}}">Odjava</a>
                     </li>
                 {% endif %}
             </ul>
