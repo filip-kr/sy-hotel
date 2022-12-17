@@ -18,3 +18,11 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+### custom ###
+.env
+.env.test
+composer.lock
+phpunit.xml.dist
+symfony.lock
+### custom ###
