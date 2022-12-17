@@ -11,9 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\RoomRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\RoomForm;
-use App\Handler\MessageTrait;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Entity\Room;
+use App\Handler\MessageTrait;
 
 #[Security("is_granted('ROLE_USER')")]
 class RoomController extends AbstractController
@@ -42,6 +43,7 @@ class RoomController extends AbstractController
     ): Response 
     {
         $room = $roomDataPersister->create();
+
         $form = $this->createForm(
             RoomForm::class,
             $room
@@ -51,10 +53,7 @@ class RoomController extends AbstractController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $roomDataPersister->save($form->getData());
-                $this->sendSavedMessage($request, $this->translator);
                 return $this->redirectToRoute('rooms');
-            } else {
-                $this->sendErrorMessage($request, $this->translator);
             }
         }
 
@@ -62,4 +61,47 @@ class RoomController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/rooms/update/{id}', name: 'rooms-update')]
+    public function update(
+        Room $room,
+        Request $request,
+        RoomDataPersister $roomDataPersister
+    ): Response 
+    {
+        $form = $this->createForm(
+            RoomForm::class,
+            $room
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $roomDataPersister->save($form->getData());
+                return $this->redirectToRoute('rooms');
+            }
+        }
+
+        return $this->render('private/rooms/action.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/rooms/delete/{id}', name: 'rooms-delete')]
+    public function delete(
+        Room $room,
+        Request $request,
+        RoomDataPersister $roomDataPersister
+    ): Response 
+    {
+        try {
+            $roomDataPersister->remove($room);
+        } catch (RoomDeleteException $rde) {
+            $this->sendErrorMessage($request, $this->translator);
+            return $this->redirectToRoute('rooms');
+        }
+
+        return $this->redirectToRoute('rooms');
+    }
+
 }

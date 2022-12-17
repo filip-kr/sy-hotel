@@ -34,9 +34,9 @@
                                             . . .
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Uredi</a></li>
+                                            <li><a class="dropdown-item" href="{{path('rooms-update', {id: room.id})}}">Uredi</a></li>
                                             {# <?php if (Soba::getVanjskiKljucevi($s->sifra)) : ?> #}
-                                                <li><a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>sobe/brisanjeunosa/<?= $s->sifra ?>">Obriši</a>
+                                                <li><a class="dropdown-item" href="{{path('rooms-delete', {id: room.id})}}">Obriši</a>
                                                 {# <?php endif; ?> #}
                                         </ul>
                                     </div>
