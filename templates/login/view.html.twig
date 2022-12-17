@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>{{ include('partials/head.html.twig') }}</head>
+
+  <body>
+    <header>{{ include('partials/navbar.html.twig') }}</header>
+
+    <main>
+        <div class="mt-5 d-flex justify-content-center align-items-center">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-12 col-md-8 col-lg-6">
+                        <div class="card bg-white">
+                            <div class="card-body p-5">
+                                <form class="mb-3 mt-md-4" method="post" action="{{ path('login') }}">
+                                    <h2 class="fw-bold mb-2 text-uppercase ">Prijava</h2>
+                                    {% if error %}
+                                        <p class=" mb-5">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                                    {% endif %}
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label ">E-mail adresa</label>
+                                        <input type="email" class="form-control" name="_username" id="email" value="{{ lastUsername }}" placeholder="admin@syhotel.com / user@syhotel.com">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label ">Lozinka</label>
+                                        <input type="password" class="form-control" name="_password" id="lozinka" value="admin256" placeholder="admin256 / user256">
+                                    </div>
+                                    <div class="d-grid">
+                                        <input type="submit" class="btn btn-outline-dark" value="Prijava"></input>
+                                    </div>
+                                    {# <input type="hidden" name="_target_path" value="/account"> #}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>{{ include('partials/footer.html.twig') }}</footer>
+
+    {{ include('partials/scripts.html.twig') }}
+  </body>
+</html>

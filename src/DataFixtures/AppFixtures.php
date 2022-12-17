@@ -37,9 +37,9 @@ final class AppFixtures extends Fixture
         $user = $this->userDataPersister->create();
         $user->setFirstName('Tea')
             ->setLastName('Vereš')
-            ->setEmail('employee@syhotel.com')
+            ->setEmail('user@syhotel.com')
             ->setRoles(['ROLE_USER'])
-            ->setPassword($this->userDataPersister->getHashPassword($user, 'emp256'))
+            ->setPassword($this->userDataPersister->getHashPassword($user, 'user'))
             ->setIsVerified(true);
         $this->userDataPersister->save($user);
         $manager->persist($user);
