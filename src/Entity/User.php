@@ -65,6 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         name: 'is_verified',
         type: 'boolean'
     )]
+    #[Assert\NotBlank]
     private ?bool $isVerified;
 
     public function getId(): ?int
@@ -157,7 +158,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->isVerified;
     }
 
-    public function setIsVerified(?string $isVerified): self
+    public function setIsVerified(?bool $isVerified): self
     {
         $this->isVerified = $isVerified;
 

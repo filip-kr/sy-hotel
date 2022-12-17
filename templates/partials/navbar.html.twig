@@ -5,25 +5,24 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="{{ path('homepage')}}">Početna</a></li>
-                {# <?php if (!App::provjeriSessAuth()) : ?> #}
-                    <li class="nav-item"><a class="nav-link" href="<?= App::ucitajKonf('url'); ?>login/prijava">Prijava</a></li>
-                {# <?php else : ?>
-                    <li class="nav-item"><a class="nav-link" href="<?= App::ucitajKonf('url'); ?>nadzornaploca">Nadzorna ploča</a></li>
+                {% if app.user is null %}
+                    <li class="nav-item"><a class="nav-link" href="#">Prijava</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="#">Nadzorna ploča</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">Programi</a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>sobe">Sobe</a></li>
-                            <li><a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>gosti">Gosti</a></li>
-                            <li><a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>rezervacije">Rezervacije</a></li>
-                            <li><a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>nocenja">Noćenja</a></li>
+                            <li><a class="dropdown-item" href="#">Sobe</a></li>
+                            <li><a class="dropdown-item" href="#">Gosti</a></li>
+                            <li><a class="dropdown-item" href="#">Rezervacije</a></li>
+                            <li><a class="dropdown-item" href="#">Noćenja</a></li>
                         </ul>
                     </li>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="<?= App::ucitajKonf('url'); ?>login/odjava">Odjava
-                            <?= App::getAutoriziraniKorisnik()->ime . ' ' . App::getAutoriziraniKorisnik()->prezime ?></a>
+                        <a class="nav-link active" href="#">Odjava</a>
                     </li>
-                <?php endif; ?> #}
+                {% endif %}
             </ul>
         </div>
     </div>
