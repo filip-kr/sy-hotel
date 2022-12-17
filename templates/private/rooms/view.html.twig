@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>{{ include('partials/head.html.twig') }}</head>
+
+  <body>
+    <header>{{ include('partials/navbar.html.twig') }}</header>
+
+    <main>
+        <div class="m-2">
+            <div class="container-fluid">
+                <div class="d-grid gap-2 mb-4">
+                    <a href="{{path('rooms-create')}}" class="btn btn-primary">Nova soba</a>
+                </div>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Broj kreveta</th>
+                            <th scope="col">Opis</th>
+                            <th scope="col">Cijena noćenja</th>
+                            <th scope="col">Akcija</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in rooms %}
+                            <tr>
+                                <th scope="row">{{room.number}}</th>
+                                <td>{{room.numberOfBeds}}</td>
+                                <td>{{room.description}}</td>
+                                <td>{{room.price}}</td>
+                                <td>
+                                    <div class="btn-group dropstart d-flex justify-content-center">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                            . . .
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Uredi</a></li>
+                                            {# <?php if (Soba::getVanjskiKljucevi($s->sifra)) : ?> #}
+                                                <li><a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>sobe/brisanjeunosa/<?= $s->sifra ?>">Obriši</a>
+                                                {# <?php endif; ?> #}
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {# <div class="mb-5 position-relative bottom-0 start-50 translate-middle-x">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <?php if ($brojStranica > 1) : ?>
+                            <li class="page-item"><a class="page-link" href="<?= App::ucitajKonf('url') ?>sobe?stranica=<?= $trenutnaStranica - 1 ?>">Prethodna</a></li>
+                        <?php endif; ?>
+                        <?php for ($brojStranica = 1; $brojStranica <= $ukupnoStranica; $brojStranica++) : ?>
+                            <?php if ($trenutnaStranica == $brojStranica) : ?>
+                                <li class="page-item active"><a class="page-link" href="<?= App::ucitajKonf('url') ?>sobe?stranica=<?= $brojStranica ?>"><?= $brojStranica ?></a></li>
+                            <?php else : ?>
+                                <li class="page-item"><a class="page-link" href="<?= App::ucitajKonf('url') ?>sobe?stranica=<?= $brojStranica ?>"><?= $brojStranica ?></a></li>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                        <?php if ($trenutnaStranica <= $ukupnoStranica - 1) : ?>
+                            <li class="page-item"><a class="page-link" href="<?= App::ucitajKonf('url') ?>sobe?stranica=<?= $trenutnaStranica + 1 ?>">Sljedeća</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
+            </div> #}
+        </div>
+    </main>
+
+    <footer>{{ include('partials/footer.html.twig') }}</footer>
+
+    {{ include('partials/scripts.html.twig') }}
+  </body>
+</html>

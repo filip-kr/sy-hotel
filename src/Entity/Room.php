@@ -7,8 +7,13 @@ namespace App\Entity;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
+#[UniqueEntity(
+    fields: 'number',
+    message: 'Broj sobe već postoji'
+)]
 class Room
 {
     #[ORM\Id]
@@ -19,7 +24,8 @@ class Room
     #[ORM\Column(
         name: 'number',
         type: 'integer',
-        nullable: false
+        nullable: false,
+        unique: true
     )]
     #[Assert\NotBlank]
     private ?int $number = null;
