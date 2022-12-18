@@ -76,10 +76,12 @@ class Guest
 
     #[ORM\Column(
         name: 'oib',
-        type: 'integer',
+        type: 'string',
+        length: 11,
+        options: ['fixed' => true],
         nullable: true
     )]
-    private ?int $oib = null;
+    private ?string $oib = null;
 
     #[ORM\Column(
         name: 'passport_number',
@@ -153,12 +155,12 @@ class Guest
         return $this;
     }
 
-    public function getOib(): ?int
+    public function getOib(): ?string
     {
         return $this->oib;
     }
 
-    public function setOib(?int $oib): self
+    public function setOib(?string $oib): self
     {
         $this->oib = $oib;
 
