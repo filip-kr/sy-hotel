@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     message: 'OIB već postoji'
 )]
 #[UniqueEntity(
-    fields: 'passport_number',
+    fields: 'passportNumber',
     message: 'Broj putovnice već postoji'
 )]
 class Guest

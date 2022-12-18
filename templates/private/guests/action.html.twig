@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  <div class="m-2">
+    <div class="container w-50 p-3">
+      {{ form_start(form) }}
+      <div class="mb-3">
+        {% include 'form/input.html.twig' with { attribute: form.firstName } %}
+      </div>
+      <div class="mb-3">
+        {% include 'form/input.html.twig' with { attribute: form.lastName } %}
+      </div>
+      <div class="mb-3">
+        {% include 'form/input.html.twig' with { attribute: form.email } %}
+      </div>
+      <div class="mb-3">
+        {% include 'form/input.html.twig' with { attribute: form.dob } %}
+      </div>
+      <div class="mb-3">
+        {% include 'form/input.html.twig' with { attribute: form.country } %}
+      </div>
+      <div class="mb-3">
+        {% include 'form/input.html.twig' with { attribute: form.oib } %}
+      </div>
+      <div class="mb-3">
+        {% include 'form/input.html.twig' with { attribute: form.passportNumber } %}
+      </div>
+      <div class="mb-5">
+        <p class="lead mb-5">Podaci označeni sa * su obavezni. <br> OIB je obavezan za državljane Republike Hrvatske, a broj putovnice za strane državljanje.</p>
+        <input type="submit" class="btn btn-success me-2" value="Potvrdi"/>
+        <a href="{{ path('guests') }}" class="btn btn-danger">Odustani</a>
+      </div>
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}

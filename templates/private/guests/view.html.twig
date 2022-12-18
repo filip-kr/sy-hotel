@@ -4,7 +4,7 @@
   <div class="m-2">
     <div class="container-fluid">
       <div class="d-grid gap-2 mb-4">
-        <a href="#" class="btn btn-primary">Novi gost</a>
+        <a href="{{ path('guests-create') }}" class="btn btn-primary">Novi gost</a>
       </div>
       <table class="table table-hover table-bordered" id="guestsTable">
         <thead>
@@ -24,7 +24,7 @@
               <th scope="row">{{ guest.firstName }}</th>
               <td>{{ guest.lastName }}</td>
               <td>{{ guest.email }}</td>
-              <td>{{ guest.dob|date('d.m.Y') }}</td>
+              <td>{{ guest.dob|date('d.m.Y.') }}</td>
               <td>{{ guest.country }}</td>
               {% if guest.oib is defined and guest.oib is not null %}
                 <td>{{ guest.oib }}</td>
