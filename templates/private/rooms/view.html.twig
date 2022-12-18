@@ -49,6 +49,8 @@
 
 {% block scripts %}
   {{ parent() }}
+  {% include 'partials/scripts/datatables.html.twig' %}
+
   <script>
     // Delete modal
     $('.delete-item').click(function () {
