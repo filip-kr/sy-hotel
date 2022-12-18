@@ -1,4 +1,4 @@
 # Symfony Hotel
-### Završni rad za PHP tečaj u Edunovi - Symfony 6 izdanje
+### Pametni sustav upravljanja hotelom, sada u Symfony izdanju
 
 WIP
