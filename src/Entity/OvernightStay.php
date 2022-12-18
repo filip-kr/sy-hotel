@@ -19,14 +19,26 @@ class OvernightStay
 
     #[ORM\ManyToOne(inversedBy: 'overnightStays')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Room $room = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
+    #[ORM\Column(
+        type: Types::DECIMAL, 
+        precision: 5, 
+        scale: 2, 
+        nullable: true)]
     private ?string $totalPrice = null;
 
-    #[ORM\Column]
+    #[ORM\Column(
+        name: 'active',
+        type: 'boolean',
+        nullable: false
+    )]
     #[Assert\NotBlank]
     private ?bool $active = null;
+
+    #[ORM\OneToOne(mappedBy: 'overnightStay', cascade: ['persist', 'remove'])]
+    private ?Reservation $reservation = null;
 
     public function getId(): ?int
     {
@@ -65,6 +77,28 @@ class OvernightStay
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($reservation === null && $this->reservation !== null) {
+            $this->reservation->setOvernightStay(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($reservation !== null && $reservation->getOvernightStay() !== $this) {
+            $reservation->setOvernightStay($this);
+        }
+
+        $this->reservation = $reservation;
 
         return $this;
     }
