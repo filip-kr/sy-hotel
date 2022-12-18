@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\RoomRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -62,6 +64,14 @@ class Room
     )]
     private ?int $price = null;
 
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: OvernightStay::class, orphanRemoval: true)]
+    private Collection $overnightStays;
+
+    public function __construct()
+    {
+        $this->overnightStays = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -111,6 +121,36 @@ class Room
     public function setPrice(int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OvernightStay>
+     */
+    public function getOvernightStays(): Collection
+    {
+        return $this->overnightStays;
+    }
+
+    public function addOvernightStay(OvernightStay $overnightStay): self
+    {
+        if (!$this->overnightStays->contains($overnightStay)) {
+            $this->overnightStays->add($overnightStay);
+            $overnightStay->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOvernightStay(OvernightStay $overnightStay): self
+    {
+        if ($this->overnightStays->removeElement($overnightStay)) {
+            // set the owning side to null (unless already changed)
+            if ($overnightStay->getRoom() === $this) {
+                $overnightStay->setRoom(null);
+            }
+        }
 
         return $this;
     }
