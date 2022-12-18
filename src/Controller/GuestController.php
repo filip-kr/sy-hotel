@@ -11,6 +11,7 @@ use App\Repository\GuestRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use App\DataPersister\GuestDataPersister;
+use App\Entity\Guest;
 use App\Form\GuestForm;
 
 #[Security("is_granted('ROLE_USER')")]
@@ -50,5 +51,40 @@ class GuestController extends AbstractController
         return $this->render('private/guests/action.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/guests/update/{id}', name: 'guests-update')]
+    public function update(
+        Guest $guest,
+        Request $request,
+        GuestDataPersister $guestDataPersister
+    ): Response 
+    {
+        $form = $this->createForm(
+            GuestForm::class,
+            $guest
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $guestDataPersister->save($form->getData());
+                return $this->redirectToRoute('guests');
+            }
+        }
+
+        return $this->render('private/guests/action.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/guests/delete/{id}', name: 'guests-delete')]
+    public function delete(
+        Guest $guest,
+        GuestDataPersister $guestDataPersister
+    ): Response 
+    {
+        $guestDataPersister->remove($guest);
+        return $this->redirectToRoute('guests');
     }
 }
