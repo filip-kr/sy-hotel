@@ -11,18 +11,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GuestRepository::class)]
-#[UniqueEntity(
-    fields: 'email',
-    message: 'E-mail adresa već postoji'
-)]
-#[UniqueEntity(
-    fields: 'oib',
-    message: 'OIB već postoji'
-)]
-#[UniqueEntity(
-    fields: 'passportNumber',
-    message: 'Broj putovnice već postoji'
-)]
+#[UniqueEntity(fields: 'email')]
+#[UniqueEntity(fields: 'oib')]
+#[UniqueEntity(fields: 'passportNumber')]
 class Guest
 {
     #[ORM\Id]

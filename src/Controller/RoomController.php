@@ -11,18 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\RoomRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\RoomForm;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Entity\Room;
 
 #[Security("is_granted('ROLE_USER')")]
 class RoomController extends AbstractController
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
     #[Route('/rooms', name: 'rooms')]
     public function index(RoomRepository $roomRepository): Response
     {

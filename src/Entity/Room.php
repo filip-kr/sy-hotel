@@ -10,10 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
-#[UniqueEntity(
-    fields: 'number',
-    message: 'Broj sobe već postoji'
-)]
+#[UniqueEntity(fields: 'number')]
 class Room
 {
     #[ORM\Id]
