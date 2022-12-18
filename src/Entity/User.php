@@ -46,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     #[Assert\NotBlank]
     #[Assert\Email(
-        message: 'The email is not a valid email.',
+        message: 'Neispravan e-mail',
     )]
     private ?string $email = null;
 

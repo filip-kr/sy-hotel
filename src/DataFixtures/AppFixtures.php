@@ -33,7 +33,7 @@ final class AppFixtures extends Fixture
         $this->userDataPersister->save($user);
         $manager->persist($user);
 
-        // Employee
+        // User
         $user = $this->userDataPersister->create();
         $user->setFirstName('Tea')
             ->setLastName('Vereš')

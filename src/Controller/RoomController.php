@@ -14,13 +14,10 @@ use App\Form\RoomForm;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Entity\Room;
-use App\Handler\MessageTrait;
 
 #[Security("is_granted('ROLE_USER')")]
 class RoomController extends AbstractController
 {
-    use MessageTrait;
-
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
@@ -90,16 +87,11 @@ class RoomController extends AbstractController
     #[Route('/rooms/delete/{id}', name: 'rooms-delete')]
     public function delete(
         Room $room,
-        Request $request,
         RoomDataPersister $roomDataPersister
     ): Response 
     {
-        try {
-            $roomDataPersister->remove($room);
-        } catch (RoomDeleteException $rde) {
-            $this->sendErrorMessage($request, $this->translator);
-            return $this->redirectToRoute('rooms');
-        }
+        $roomDataPersister->remove($room);
+        return $this->redirectToRoute('rooms');
 
         return $this->redirectToRoute('rooms');
     }
