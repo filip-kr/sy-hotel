@@ -38,7 +38,11 @@ class Room
     #[Assert\NotBlank]
     private ?int $numberOfBeds = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(
+        name: 'description',
+        type: 'string',
+        nullable: true
+    )]
     private ?string $description = null;
 
     #[ORM\Column(

@@ -4,19 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use App\Repository\GuestRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Entity(repositoryClass: GuestRepository::class)]
 #[UniqueEntity(
     fields: 'email',
     message: 'E-mail adresa već postoji'
 )]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[UniqueEntity(
+    fields: 'oib',
+    message: 'OIB već postoji'
+)]
+#[UniqueEntity(
+    fields: 'passport_number',
+    message: 'Broj putovnice već postoji'
+)]
+class Guest
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -51,23 +58,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $email = null;
 
-    #[ORM\Column]
-    #[Assert\NotBlank]
-    private array $roles = [];
-
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
-    private ?string $password = null;
-
     #[ORM\Column(
-        name: 'is_verified',
-        type: 'boolean',
+        name: 'dob',
+        type: Types::DATETIME_MUTABLE,
         nullable: false
     )]
     #[Assert\NotBlank]
-    private ?bool $isVerified;
+    private ?\DateTimeInterface $dob = null;
+
+    #[ORM\Column(
+        name: 'country',
+        type: 'string',
+        nullable: false
+    )]
+    #[Assert\NotBlank]
+    private ?string $country = null;
+
+    #[ORM\Column(
+        name: 'oib',
+        type: 'integer',
+        nullable: true
+    )]
+    private ?int $oib = null;
+
+    #[ORM\Column(
+        name: 'passport_number',
+        type: 'string',
+        nullable: true
+    )]
+    private ?string $passportNumber = null;
 
     public function getId(): ?int
     {
@@ -79,7 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstName;
     }
 
-    public function setFirstName(?string $firstName): self
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -91,7 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastName;
     }
 
-    public function setLastName(?string $lastName): self
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -110,68 +129,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
+    public function getDob(): ?\DateTimeInterface
     {
-        return (string) $this->email;
+        return $this->dob;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
+    public function setDob(\DateTimeInterface $dob): self
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+        $this->dob = $dob;
 
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
+    public function getCountry(): ?string
     {
-        return $this->password;
+        return $this->country;
     }
 
-    public function setPassword(string $password): self
+    public function setCountry(string $country): self
     {
-        $this->password = $password;
+        $this->country = $country;
 
         return $this;
     }
 
-    public function getIsVerified(): ?bool
+    public function getOib(): ?int
     {
-        return $this->isVerified;
+        return $this->oib;
     }
 
-    public function setIsVerified(?bool $isVerified): self
+    public function setOib(?int $oib): self
     {
-        $this->isVerified = $isVerified;
+        $this->oib = $oib;
 
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
+    public function getPassportNumber(): ?string
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        return $this->passportNumber;
+    }
+
+    public function setPassportNumber(?string $passportNumber): self
+    {
+        $this->passportNumber = $passportNumber;
+
+        return $this;
     }
 }
