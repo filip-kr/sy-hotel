@@ -8,7 +8,7 @@ use App\Entity\OvernightStay;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class OvernightStayRepository extends ServiceEntityRepository
+final class OvernightStayRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

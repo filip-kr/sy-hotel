@@ -64,7 +64,11 @@ class Room
     )]
     private ?int $price = null;
 
-    #[ORM\OneToMany(mappedBy: 'room', targetEntity: OvernightStay::class, orphanRemoval: true)]
+    #[ORM\OneToMany(
+        mappedBy: 'room',
+        targetEntity: OvernightStay::class,
+        orphanRemoval: true
+    )]
     private Collection $overnightStays;
 
     public function __construct()

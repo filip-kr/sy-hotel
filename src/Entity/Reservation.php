@@ -22,7 +22,10 @@ class Reservation
     #[Assert\NotBlank]
     private ?Guest $guest = null;
 
-    #[ORM\OneToOne(inversedBy: 'reservation', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(
+        inversedBy: 'reservation',
+        cascade: ['persist', 'remove']
+    )]
     private ?OvernightStay $overnightStay = null;
 
     #[ORM\Column(

@@ -102,7 +102,11 @@ class Guest
     )]
     private ?string $passportNumber = null;
 
-    #[ORM\OneToMany(mappedBy: 'guest', targetEntity: Reservation::class, orphanRemoval: true)]
+    #[ORM\OneToMany(
+        mappedBy: 'guest',
+        targetEntity: Reservation::class,
+        orphanRemoval: true
+    )]
     private Collection $reservations;
 
     public function __construct()

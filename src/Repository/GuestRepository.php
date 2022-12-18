@@ -8,7 +8,7 @@ use App\Entity\Guest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class GuestRepository extends ServiceEntityRepository
+final class GuestRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
