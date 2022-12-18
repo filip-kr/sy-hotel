@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>{{ include('partials/head.html.twig') }}</head>
+{% extends 'base.html.twig' %}
 
-  <body>
-    <header>{{ include('partials/navbar.html.twig') }}</header>
-
-    <main>
-      <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-        <div class="container text-center text-md-left" data-aos="fade-up">
-          <h1>Dobrodošli u SYMFONY HOTEL</h1>
-          <h2>Pametni sustav upravljanja hotelom, sada u Symfony izdanju</h2>
-        </div>
-      </section>
-    </main>
-
-    <footer>{{ include('partials/footer.html.twig') }}</footer>
-
-    {{ include('partials/scripts.html.twig') }}
-  </body>
-</html>
+{% block content %}
+  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+    <div class="container text-center text-md-left" data-aos="fade-up">
+      <h1>Dobrodošli u SYMFONY HOTEL</h1>
+      <h2>Pametni sustav upravljanja hotelom, sada u Symfony izdanju</h2>
+    </div>
+  </section>
+{% endblock %}

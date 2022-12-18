@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="hr">
+  <head>
+    {% block head %}
+      {{ include('partials/head.html.twig') }}
+    {% endblock %}
+  </head>
+
+  <body>
+    <header>
+      {% block header %}
+        {{ include('partials/navbar.html.twig') }}
+      {% endblock %}
+    </header>
+
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <footer>
+      {% block footer %}
+        {{ include('partials/footer.html.twig') }}
+      {% endblock %}
+    </footer>
+
+    {{ include('partials/scripts.html.twig') }}
+  </body>
+</html>
