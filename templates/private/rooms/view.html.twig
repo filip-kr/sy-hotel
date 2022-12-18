@@ -6,7 +6,7 @@
       <div class="d-grid gap-2 mb-4">
         <a href="{{ path('rooms-create') }}" class="btn btn-primary">Nova soba</a>
       </div>
-      <table class="table table-hover table-bordered">
+      <table class="table table-hover table-bordered" id="roomsTable">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -44,17 +44,27 @@
       </table>
     </div>
   </div>
-{% include 'confirmdelete.html.twig' %}
+  {% include 'confirmdelete.html.twig' %}
 {% endblock %}
 
 {% block scripts %}
-    {{ parent() }}
-    <script>
-        $('.delete-item').click(function () {
-            $('#confirmedDelete').attr('href', $(this).attr('href'));
-            $('#messageModal').html($(this).parent().prev().prev().html());
-            $('#modalDelete').modal('show');
-            return false;
-        });
-    </script>
+  {{ parent() }}
+  <script>
+    // Delete modal
+    $('.delete-item').click(function () {
+      $('#confirmedDelete').attr('href', $(this).attr('href'))
+      $('#messageModal').html($(this).parent().prev().prev().html())
+      $('#modalDelete').modal('show')
+      return false
+    })
+    
+    // DataTables
+    $(document).ready(function () {
+      $('#roomsTable').DataTable({
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
+        }
+      })
+    })
+  </script>
 {% endblock %}
