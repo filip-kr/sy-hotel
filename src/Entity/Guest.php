@@ -73,6 +73,9 @@ class Guest
         options: ['fixed' => true],
         nullable: true
     )]
+    #[Assert\Expression(
+        "this.getCountry() != 'HR' or this.getCountry() == 'HR' and this.getOib() != null ? true : false"
+    )]
     #[CustomAssert\Oib]
     private ?string $oib = null;
 
@@ -80,6 +83,9 @@ class Guest
         name: 'passport_number',
         type: 'string',
         nullable: true
+    )]
+    #[Assert\Expression(
+        "this.getCountry() == 'HR' or this.getCountry() != 'HR' and this.getPassportNumber() != null ? true : false"
     )]
     private ?string $passportNumber = null;
 

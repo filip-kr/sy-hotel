@@ -9,13 +9,13 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
-use App\Service\GuestService;
+use App\Service\OibService;
 
 class OibValidator extends ConstraintValidator
 {
-    public function __construct(GuestService $guestService)
+    public function __construct(OibService $oibService)
     {
-        $this->guestService = $guestService;
+        $this->oibService = $oibService;
     }
 
     public function validate($value, Constraint $constraint): void
@@ -32,7 +32,7 @@ class OibValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        if (!$this->guestService->isOibValid($value)) {
+        if (!$this->oibService->isOibValid($value)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)
                 ->addViolation();

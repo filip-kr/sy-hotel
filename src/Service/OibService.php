@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-final class GuestService
+final class OibService
 {
     public function isOibValid(?string $oib): bool
     {
