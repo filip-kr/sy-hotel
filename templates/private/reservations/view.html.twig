@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  <div class="m-2">
+    <div class="container-fluid">
+      <div class="d-grid gap-2 mb-4">
+        <a href="#" class="btn btn-primary">Nova rezervacija</a>
+      </div>
+      <table class="table table-hover table-bordered" id="reservationsTable">
+        <thead>
+          <tr>
+            <th scope="col">Ime</th>
+            <th scope="col">Prezime</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">OIB / Broj putovnice</th>
+            <th scope="col">Datum prijave</th>
+            <th scope="col">Datum odjave</th>
+            <th scope="col">Akcija</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reservation in reservations %}
+            <tr>
+              <th scope="row">{{ reservation.guest.firstName }}</th>
+              <td>{{ reservation.guest.lastName }}</td>
+              <td>{{ reservation.guest.email }}</td>
+              {% if reservation.guest.oib is defined and reservation.guest.oib is not null %}
+                <td>{{ reservation.guest.oib }}</td>
+              {% else %}
+                <td>{{ reservation.guest.passportNumber }}</td>
+              {% endif %}
+              <td>{{ reservation.signInDate|date('d.m.Y.') }}</td>
+              <td>{{ reservation.signOutDate|date('d.m.Y.') }}</td>
+              <td>
+                <div class="btn-group dropstart d-flex justify-content-center">
+                  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="#">Uredi</a>
+                    </li>
+                    {# <?php if (Soba::getVanjskiKljucevi($s->sifra)) : ?> #}
+                    <li>
+                      <a class="dropdown-item delete-item" href="#">Obriši</a>
+                    </li>
+                    {# <?php endif; ?> #}
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% include 'confirmdelete.html.twig' %}
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  {% include 'partials/scripts/datatables.html.twig' %}
+
+  <script>
+    // Delete modal
+    $('.delete-item').click(function () {
+      $('#confirmedDelete').attr('href', $(this).attr('href'))
+      $('#messageModal').html($(this).parent().prev().prev().html())
+      $('#modalDelete').modal('show')
+      return false
+    })
+    
+    // DataTables
+    $(document).ready(function () {
+      $('#reservationsTable').DataTable({
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
+        }
+      })
+    })
+  </script>
+{% endblock %}
