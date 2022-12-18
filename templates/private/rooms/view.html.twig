@@ -32,7 +32,7 @@
                     </li>
                     {# <?php if (Soba::getVanjskiKljucevi($s->sifra)) : ?> #}
                     <li>
-                      <a class="dropdown-item" href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
+                      <a class="dropdown-item delete-item" href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
                     </li>
                     {# <?php endif; ?> #}
                   </ul>
@@ -43,24 +43,18 @@
         </tbody>
       </table>
     </div>
-    {# <div class="mb-5 position-relative bottom-0 start-50 translate-middle-x">
-                <nav>
-                    <ul class="pagination justify-content-center">
-                        <?php if ($brojStranica > 1) : ?>
-                            <li class="page-item"><a class="page-link" href="<?= App::ucitajKonf('url') ?>sobe?stranica=<?= $trenutnaStranica - 1 ?>">Prethodna</a></li>
-                        <?php endif; ?>
-                        <?php for ($brojStranica = 1; $brojStranica <= $ukupnoStranica; $brojStranica++) : ?>
-                            <?php if ($trenutnaStranica == $brojStranica) : ?>
-                                <li class="page-item active"><a class="page-link" href="<?= App::ucitajKonf('url') ?>sobe?stranica=<?= $brojStranica ?>"><?= $brojStranica ?></a></li>
-                            <?php else : ?>
-                                <li class="page-item"><a class="page-link" href="<?= App::ucitajKonf('url') ?>sobe?stranica=<?= $brojStranica ?>"><?= $brojStranica ?></a></li>
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                        <?php if ($trenutnaStranica <= $ukupnoStranica - 1) : ?>
-                            <li class="page-item"><a class="page-link" href="<?= App::ucitajKonf('url') ?>sobe?stranica=<?= $trenutnaStranica + 1 ?>">Sljedeća</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </nav>
-            </div> #}
   </div>
+{% include 'confirmdelete.html.twig' %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $('.delete-item').click(function () {
+            $('#confirmedDelete').attr('href', $(this).attr('href'));
+            $('#messageModal').html($(this).parent().prev().prev().html());
+            $('#modalDelete').modal('show');
+            return false;
+        });
+    </script>
 {% endblock %}

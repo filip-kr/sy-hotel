@@ -92,8 +92,5 @@ class RoomController extends AbstractController
     {
         $roomDataPersister->remove($room);
         return $this->redirectToRoute('rooms');
-
-        return $this->redirectToRoute('rooms');
     }
-
 }

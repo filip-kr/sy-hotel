@@ -24,6 +24,8 @@
       {% endblock %}
     </footer>
 
-    {{ include('partials/scripts.html.twig') }}
+    {% block scripts %}
+      {{ include('partials/scripts.html.twig') }}
+    {% endblock %}
   </body>
 </html>
