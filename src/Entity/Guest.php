@@ -27,7 +27,10 @@ class Guest
         type: 'string',
         nullable: false
     )]
-    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 50
+    )]
     private ?string $firstName;
 
     #[ORM\Column(
@@ -35,7 +38,10 @@ class Guest
         type: 'string',
         nullable: false
     )]
-    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 50
+    )]
     private ?string $lastName;
 
     #[ORM\Column(
@@ -45,8 +51,10 @@ class Guest
         nullable: false
     )]
     #[Assert\NotBlank]
-    #[Assert\Email(
-        message: 'Neispravan e-mail',
+    #[Assert\Email()]
+    #[Assert\Length(
+        min: 5,
+        max: 30
     )]
     private ?string $email = null;
 
@@ -86,6 +94,9 @@ class Guest
     )]
     #[Assert\Expression(
         "this.getCountry() == 'HR' or this.getCountry() != 'HR' and this.getPassportNumber() != null ? true : false"
+    )]
+    #[Assert\Length(
+        max: 50
     )]
     private ?string $passportNumber = null;
 

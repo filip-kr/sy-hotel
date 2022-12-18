@@ -26,6 +26,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         nullable: false
     )]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 50
+    )]
     private ?string $firstName;
 
     #[ORM\Column(
@@ -34,6 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         nullable: false
     )]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 50
+    )]
     private ?string $lastName;
 
     #[ORM\Column(
@@ -45,6 +53,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Email(
         message: 'Neispravan e-mail',
+    )]
+    #[Assert\Length(
+        min: 5,
+        max: 30
     )]
     private ?string $email = null;
 

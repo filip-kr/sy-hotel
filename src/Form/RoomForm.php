@@ -33,7 +33,8 @@ class RoomForm extends AbstractType
                 'label' => 'Opis',
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'required' => false
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Cijena noćenja*',

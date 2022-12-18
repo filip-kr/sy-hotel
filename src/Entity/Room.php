@@ -25,6 +25,9 @@ class Room
         unique: true
     )]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        max: 3
+    )]
     private ?int $number = null;
 
     #[ORM\Column(
@@ -33,6 +36,9 @@ class Room
         nullable: false
     )]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        max: 2
+    )]
     private ?int $numberOfBeds = null;
 
     #[ORM\Column(
@@ -40,12 +46,19 @@ class Room
         type: 'string',
         nullable: true
     )]
+    #[Assert\Length(
+        min: 2,
+        max: 50
+    )]
     private ?string $description = null;
 
     #[ORM\Column(
         name: 'price',
         type: 'integer',
         nullable: false
+    )]
+    #[Assert\Length(
+        max: 10
     )]
     private ?int $price = null;
 
