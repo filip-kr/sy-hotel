@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Oib as CustomAssert;
 
 #[ORM\Entity(repositoryClass: GuestRepository::class)]
 #[UniqueEntity(fields: 'email')]
@@ -72,6 +73,7 @@ class Guest
         options: ['fixed' => true],
         nullable: true
     )]
+    #[CustomAssert\Oib]
     private ?string $oib = null;
 
     #[ORM\Column(
