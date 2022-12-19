@@ -20,4 +20,11 @@ class DashboardController extends AbstractController
             'dataCount' => $dataCount
         ]);
     }
+
+    // #[Route('/dashboard/reservationdata', name: 'dashboard-resdata')]
+    // public function getSignInDates(StatisticsService $statisticsService): Response
+    // {
+    //     dd($statisticsService->getSignInDates());
+    //     return new Response(json_encode($statisticsService->getSignInDates()));
+    // }
 }

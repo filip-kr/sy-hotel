@@ -33,4 +33,17 @@ final class StatisticsService
             'availableRoomCount' => count($this->roomRepository->getAvailable())
         ];
     }
+
+    // public function getSignInDates(): array
+    // {
+    //     $reservations = $this->reservationRepository->findAll();
+    //     $months = [];
+
+    //     foreach ($reservations as $reservation) {
+    //         $months[date_format($reservation->getSignInDate(), 'm')] = date_format($reservation->getSignInDate(), 'm');
+    //     };
+
+    //     return $months;
+        
+    // }
 }

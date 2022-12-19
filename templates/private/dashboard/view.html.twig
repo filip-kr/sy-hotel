@@ -76,17 +76,17 @@
       </div>
     </div>
 
-    {# <!-- Graf -->
+    <!-- Graf -->
     <div class="row justify-content-center mb-5">
       <div class="card-body">
         <div class="chart-bar pt-4 pb-2">
-          <canvas id="graf"></canvas>
+          <canvas id="chart"></canvas>
         </div>
       </div>
     </div>
 
     <!-- Operateri -->
-    <p class="lead text-center mt-5 mb-2">Operateri</p>
+    {# <p class="lead text-center mt-5 mb-2">Operateri</p>
     <div class="mb-5">
       <?php if ($trenutniOperater->uloga == 'administrator') : ?><div class="d-grid gap-2 mb-2">
         <a href="<?= App::ucitajKonf('url') ?>nadzornaploca/novioperater/" class="btn btn-primary">Novi operater</a>
@@ -126,7 +126,10 @@
 
 {% block scripts %}
   {{ parent() }}
+    {% include 'partials/scripts/chart.html.twig' %}
   {% include 'partials/scripts/datatables.html.twig' %}
+
+
 
   <script>
     // Delete modal
