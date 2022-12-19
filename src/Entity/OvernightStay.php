@@ -31,12 +31,12 @@ class OvernightStay
     private ?string $totalPrice = null;
 
     #[ORM\Column(
-        name: 'active',
+        name: 'is_active',
         type: 'boolean',
         nullable: false
     )]
     #[Assert\NotBlank]
-    private ?bool $active = null;
+    private ?bool $isActive = null;
 
     #[ORM\OneToOne(
         mappedBy: 'overnightStay',
@@ -75,12 +75,12 @@ class OvernightStay
 
     public function isActive(): ?bool
     {
-        return $this->active;
+        return $this->isActive;
     }
 
-    public function setActive(bool $active): self
+    public function setIsActive(bool $isActive): self
     {
-        $this->active = $active;
+        $this->isActive = $isActive;
 
         return $this;
     }

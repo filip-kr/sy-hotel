@@ -34,13 +34,16 @@ class Reservation
         nullable: false
     )]
     #[Assert\NotBlank]
+    #[Assert\GreaterThan('+4 hours')]
     private ?\DateTimeInterface $signInDate = null;
 
     #[ORM\Column(
         name: 'sign_out_date',
         type: Types::DATETIME_MUTABLE,
-        nullable: true
+        nullable: false
     )]
+    #[Assert\NotBlank]
+    #[Assert\GreaterThan(propertyPath: 'signInDate')]
     private ?\DateTimeInterface $signOutDate = null;
 
     public function getId(): ?int
