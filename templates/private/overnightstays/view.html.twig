@@ -4,45 +4,65 @@
   <div class="m-2">
     <div class="container-fluid">
       <div class="d-grid gap-2 mb-4">
-        <a href="{{ path('reservations-create') }}" class="btn btn-primary">Nova rezervacija</a>
+        <a href="#" class="btn btn-primary">Novo noćenje</a>
       </div>
-      <table class="table table-hover table-bordered" id="reservationsTable">
+      <table class="table table-hover table-bordered" id="overnightStaysTable">
         <thead>
           <tr>
             <th scope="col">Ime</th>
             <th scope="col">Prezime</th>
-            <th scope="col">E-mail</th>
             <th scope="col">OIB / Broj putovnice</th>
-            <th scope="col">Datum prijave</th>
+            <th scope="col">Broj sobe</th>
             <th scope="col">Datum odjave</th>
+            <th scope="col">Cijena ukupno</th>
+            <th scope="col">Aktivno</th>
             <th scope="col">Akcija</th>
           </tr>
         </thead>
         <tbody>
-          {% for reservation in reservations %}
+          {% for os in overnightStays %}
             <tr>
-              <th scope="row">{{ reservation.guest.firstName }}</th>
-              <td>{{ reservation.guest.lastName }}</td>
-              <td>{{ reservation.guest.email }}</td>
-              {% if reservation.guest.oib is defined and reservation.guest.oib is not null %}
-                <td>{{ reservation.guest.oib }}</td>
+              <td>{{ os.reservation.guest.firstName }}</td>
+              <td>{{ os.reservation.guest.lastName }}</td>
+              {% if os.reservation.guest.oib is defined and os.reservation.guest.oib is not null %}
+                <td>{{ os.reservation.guest.oib }}</td>
               {% else %}
-                <td>{{ reservation.guest.passportNumber }}</td>
+                <td>{{ os.reservation.guest.passportNumber }}</td>
               {% endif %}
-              <td>{{ reservation.signInDate|date('d.m.Y. H:m') }}</td>
-              <td>{{ reservation.signOutDate|date('d.m.Y. H:m') }}</td>
+              <td>{{ os.room.number }}</td>
+              <td>{{ os.reservation.signOutDate|date('d.m.Y. H:m') }}</td>
+              <td>{{ os.totalPrice }}</td>
+              {% if os.isActive %}
+                <td>
+                  <div class="d-flex justify-content-center mt-2">
+                    <img class="img-fluid" src="/img/checked.ico" alt="Da" />
+                  </div>
+                </td>
+              {% else %}
+                <td>
+                  <div class="d-flex justify-content-center mt-2">
+                    <img class="img-fluid" src="/img/cancel.ico" alt="Ne" />
+                  </div>
+                </td>
+              {% endif %}
               <td>
                 <div class="btn-group dropstart d-flex justify-content-center">
                   <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
                   <ul class="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="{{ path('reservations-update', { id: reservation.id }) }}">Uredi</a>
+                      <a class="dropdown-item" href="#">Uredi</a>
                     </li>
                     {# <?php if (Soba::getVanjskiKljucevi($s->sifra)) : ?> #}
                     <li>
-                      <a class="dropdown-item delete-item" href="{{ path('reservations-delete', { id: reservation.id }) }}">Obriši</a>
+                      <a class="dropdown-item delete-item" href="#">Obriši</a>
                     </li>
                     {# <?php endif; ?> #}
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">Ispiši račun</a>
+                    </li>
                   </ul>
                 </div>
               </td>
@@ -70,7 +90,7 @@
     
     // DataTables
     $(document).ready(function () {
-      $('#reservationsTable').DataTable({
+      $('#overnightStaysTable').DataTable({
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
         }
