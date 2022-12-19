@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Repository\OvernightStayRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\OvernightStayForm;
+use App\Service\ReceiptService;
 
 #[Security("is_granted('ROLE_USER')")]
 class OvernightStayController extends AbstractController
@@ -82,5 +83,20 @@ class OvernightStayController extends AbstractController
 
         $osDataPersister->remove($overnightStay);
         return $this->redirectToRoute('overnightstays');
+    }
+
+    #[Route('/overnightstays/print/{id}', name: 'overnightstays-print')]
+    public function printReceipt(
+        OvernightStay $overnightStay,
+        OvernightStayDataPersister $osDataPersister,
+        ReceiptService $receiptService
+    ): void 
+    {
+        if ($overnightStay->isActive()) {
+            $overnightStay->setIsActive(false);
+        }
+        $osDataPersister->save($overnightStay);
+
+        $receiptService->generateReceipt($overnightStay);
     }
 }
