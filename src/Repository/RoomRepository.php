@@ -14,4 +14,20 @@ final class RoomRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Room::class);
     }
+
+    public function getAvailable(): array
+    {
+        $query = $this->createQueryBuilder('r')
+            ->select('r')
+            ->andWhere('
+
+            r NOT IN (SELECT IDENTITY(os.room) 
+            FROM App\Entity\OvernightStay os 
+            WHERE os.isActive = true)
+
+        ');
+
+        return $query->getQuery()
+            ->getResult();
+    }
 }

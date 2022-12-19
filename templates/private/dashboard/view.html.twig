@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  <div class="container">
+    <div class="text-center mt-5 mb-5">
+      <h1>Nadzorna ploča</h1>
+    </div>
+    <p class="lead text-center mb-2">Statistika</p>
+    <div class="row justify-content-center">
+      <!-- Broj gostiju -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Gosti</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['guestCount'] }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="bi-person-fill fs-1 mr-2"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ukupno rezervacija -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Rezervacije</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['reservationCount'] }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="bi-person-plus-fill fs-1 mr-2"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aktivna noćenja -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Aktivna noćenja</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['activeStayCount'] }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="bi-person-check-fill fs-1 mr-2"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soba dostupno -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Soba dostupno</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['availableRoomCount'] }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="bi-person-bounding-box fs-1 mr-2"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# <!-- Graf -->
+    <div class="row justify-content-center mb-5">
+      <div class="card-body">
+        <div class="chart-bar pt-4 pb-2">
+          <canvas id="graf"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Operateri -->
+    <p class="lead text-center mt-5 mb-2">Operateri</p>
+    <div class="mb-5">
+      <?php if ($trenutniOperater->uloga == 'administrator') : ?><div class="d-grid gap-2 mb-2">
+        <a href="<?= App::ucitajKonf('url') ?>nadzornaploca/novioperater/" class="btn btn-primary">Novi operater</a>
+      </div><?php endif; ?><table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">E-mail</th>
+            <th scope="col">Ime</th>
+            <th scope="col">Prezime</th>
+            <th scope="col">Uloga</th><?php if ($trenutniOperater->uloga == 'administrator') : ?><th scope="col">Akcija</th><?php endif; ?>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($operateri as $o) : ?><tr>
+            <td><?= $o->email ?></td>
+            <td><?= $o->ime ?></td>
+            <td><?= $o->prezime ?></td>
+            <td><?= ucfirst($o->uloga) ?></td><?php if ($trenutniOperater->uloga == 'administrator') : ?><td>
+              <div class="btn-group dropstart d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>nadzornaploca/izmjenaoperatera/<?= $o->sifra ?>">Uredi</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>nadzornaploca/brisanjeoperatera/<?= $o->sifra ?>" onclick="return confirm('Sigurno želite obrisati operatera <?= $o->ime . ' ' . $o->prezime ?>?');">Obriši</a>
+                  </li>
+                </ul>
+              </div>
+            </td><?php endif; ?>
+          </tr><?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div><?= $skriptaJquery ?> <?= $skriptaChartJs ?> <?= $skriptaGrafAjax ?>{% include 'confirmdelete.html.twig' %} #}
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  {% include 'partials/scripts/datatables.html.twig' %}
+
+  <script>
+    // Delete modal
+    $('.delete-item').click(function () {
+      $('#confirmedDelete').attr('href', $(this).attr('href'))
+      $('#messageModal').html($(this).parent().prev().prev().html())
+      $('#modalDelete').modal('show')
+      return false
+    })
+    
+    // DataTables
+    $(document).ready(function () {
+      $('#guestsTable').DataTable({
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
+        }
+      })
+    })
+  </script>
+{% endblock %}
