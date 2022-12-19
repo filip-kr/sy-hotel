@@ -26,8 +26,9 @@ class OvernightStay
         type: Types::DECIMAL,
         precision: 5,
         scale: 2,
-        nullable: true
+        nullable: false
     )]
+    #[Assert\NotBlank]
     private ?string $totalPrice = null;
 
     #[ORM\Column(
@@ -41,6 +42,7 @@ class OvernightStay
         mappedBy: 'overnightStay',
         cascade: ['persist', 'remove']
     )]
+    #[Assert\NotBlank]
     private ?Reservation $reservation = null;
 
     public function getId(): ?int

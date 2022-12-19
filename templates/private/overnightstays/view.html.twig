@@ -4,7 +4,7 @@
   <div class="m-2">
     <div class="container-fluid">
       <div class="d-grid gap-2 mb-4">
-        <a href="#" class="btn btn-primary">Novo noćenje</a>
+        <a href="{{ path('overnightstays-create') }}" class="btn btn-primary">Novo noćenje</a>
       </div>
       <table class="table table-hover table-bordered" id="overnightStaysTable">
         <thead>
@@ -50,13 +50,13 @@
                   <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
                   <ul class="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="{{ path('overnightstays-update', { id: os.id }) }}">Uredi</a>
+                      <a class="dropdown-item" href="{{ path('overnightstays-changestatus', { id: os.id }) }}">Promijeni status</a>
                     </li>
-                    {# <?php if (Soba::getVanjskiKljucevi($s->sifra)) : ?> #}
+                    {% if os.isActive == false %}
                     <li>
-                      <a class="dropdown-item delete-item" href="#">Obriši</a>
+                      <a class="dropdown-item delete-item" href="{{ path('overnightstays-delete', { id: os.id }) }}">Obriši</a>
                     </li>
-                    {# <?php endif; ?> #}
+                    {% endif %}
                     <li>
                       <hr class="dropdown-divider" />
                     </li>

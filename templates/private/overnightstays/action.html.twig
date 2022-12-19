@@ -5,6 +5,9 @@
     <div class="container w-50 p-3">
       {{ form_start(form) }}
       <div class="mb-3">
+        {% include 'form/input.html.twig' with { attribute: form.reservation } %}
+      </div>
+      <div class="mb-3">
         {% include 'form/input.html.twig' with { attribute: form.room } %}
       </div>
       <div class="mb-3">
@@ -14,8 +17,8 @@
         {% include 'form/input.html.twig' with { attribute: form.isActive } %}
       </div>
       <div class="mb-5">
-        <p class="lead mb-5">Podaci označeni sa * su obavezni</p>
-        <input type="submit" class="btn btn-success me-2" value="Potvrdi"/>
+        <p class="lead mb-5">Svi podaci su obavezni</p>
+        <input type="submit" class="btn btn-success me-2" value="Potvrdi" />
         <a href="{{ path('overnightstays') }}" class="btn btn-danger">Odustani</a>
       </div>
       {{ form_end(form) }}

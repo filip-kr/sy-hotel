@@ -27,13 +27,13 @@ class OvernightStayController extends AbstractController
         ]);
     }
 
-    #[Route('/overnightstays/update/{id}', name: 'overnightstays-update')]
-    public function update(
-        OvernightStay $overnightStay,
+    #[Route('/overnightstays/create', name: 'overnightstays-create')]
+    public function create(
         Request $request,
         OvernightStayDataPersister $osDataPersister
-    ): Response 
-    {
+    ): Response {
+        $overnightStay = $osDataPersister->create();
+
         $form = $this->createForm(
             OvernightStayForm::class,
             $overnightStay
@@ -50,5 +50,32 @@ class OvernightStayController extends AbstractController
         return $this->render('private/overnightstays/action.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/overnightstays/changestatus/{id}', name: 'overnightstays-changestatus')]
+    public function changeStatus(
+        OvernightStay $overnightStay,
+        OvernightStayDataPersister $osDataPersister
+    ): Response 
+    {
+        if ($overnightStay->isActive()) {
+            $overnightStay->setIsActive(false);
+        } else {
+            $overnightStay->setIsActive(true);
+        }
+
+        $osDataPersister->save($overnightStay);
+
+        return $this->redirectToRoute('overnightstays');
+    }
+
+    #[Route('/overnightstays/delete/{id}', name: 'overnightstays-delete')]
+    public function delete(
+        OvernightStay $overnightStay,
+        OvernightStayDataPersister $osDataPersister
+    ): Response 
+    {
+        $osDataPersister->remove($overnightStay);
+        return $this->redirectToRoute('overnightstays');
     }
 }
