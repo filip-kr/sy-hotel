@@ -23,7 +23,7 @@ class OvernightStayForm extends AbstractType
         $builder
             ->add('reservation', EntityType::class, [
                 'class' => Reservation::class,
-                'label' => 'Rezervacija',
+                'label' => 'Rezervacija*',
                 'choice_label' => 'guest.email',
                 'attr' => [
                     'class' => 'form-control'
@@ -35,7 +35,7 @@ class OvernightStayForm extends AbstractType
             ])
             ->add('room', EntityType::class, [
                 'class' => Room::class,
-                'label' => 'Soba',
+                'label' => 'Soba*',
                 'choice_label' => 'number',
                 'attr' => [
                     'class' => 'form-control'
@@ -53,14 +53,14 @@ class OvernightStayForm extends AbstractType
                 }
             ])
             ->add('totalPrice', MoneyType::class, [
-                'label' => 'Cijena ukupno',
+                'label' => 'Cijena ukupno*',
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 'required' => false
             ])
             ->add('isActive', ChoiceType::class, [
-                'label' => 'Aktivno',
+                'label' => 'Aktivno*',
                 'required' => false,
                 'choices' => [
                     'Da' => true,

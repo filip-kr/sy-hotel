@@ -31,7 +31,8 @@ class OvernightStayController extends AbstractController
     public function create(
         Request $request,
         OvernightStayDataPersister $osDataPersister
-    ): Response {
+    ): Response 
+    {
         $overnightStay = $osDataPersister->create();
 
         $form = $this->createForm(
