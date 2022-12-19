@@ -84,6 +84,10 @@ class ReservationController extends AbstractController
         ReservationDataPersister $reservationDataPersister
     ): Response 
     {
+        if ($reservation->getOvernightStay()->isActive()) {
+            return $this->redirectToRoute('reservations');
+        }
+
         $reservationDataPersister->remove($reservation);
         return $this->redirectToRoute('reservations');
     }

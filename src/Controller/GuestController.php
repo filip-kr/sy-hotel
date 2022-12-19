@@ -84,6 +84,10 @@ class GuestController extends AbstractController
         GuestDataPersister $guestDataPersister
     ): Response 
     {
+        if ($guest->getReservations()) {
+            return $this->redirectToRoute('guests');
+        }
+
         $guestDataPersister->remove($guest);
         return $this->redirectToRoute('guests');
     }

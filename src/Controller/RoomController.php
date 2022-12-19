@@ -84,6 +84,14 @@ class RoomController extends AbstractController
         RoomDataPersister $roomDataPersister
     ): Response 
     {
+        if ($room->getOvernightStays()) {
+            foreach ($room->getOvernightStays() as $os) {
+                if ($os->isActive()) {
+                    return $this->redirectToRoute('rooms');
+                }
+            }
+        }
+
         $roomDataPersister->remove($room);
         return $this->redirectToRoute('rooms');
     }

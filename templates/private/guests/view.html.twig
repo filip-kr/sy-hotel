@@ -38,11 +38,11 @@
                     <li>
                       <a class="dropdown-item" href="{{ path('guests-update', { id: guest.id }) }}">Uredi</a>
                     </li>
-                    {# <?php if (Soba::getVanjskiKljucevi($s->sifra)) : ?> #}
-                    <li>
-                      <a class="dropdown-item delete-item" href="{{ path('guests-delete', { id: guest.id }) }}">Obriši</a>
-                    </li>
-                    {# <?php endif; ?> #}
+                    {% if guest.reservations is empty %}
+                      <li>
+                        <a class="dropdown-item delete-item" href="{{ path('guests-delete', { id: guest.id }) }}">Obriši</a>
+                      </li>
+                    {% endif %}
                   </ul>
                 </div>
               </td>

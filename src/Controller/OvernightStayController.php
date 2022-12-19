@@ -75,6 +75,10 @@ class OvernightStayController extends AbstractController
         OvernightStayDataPersister $osDataPersister
     ): Response 
     {
+        if ($overnightStay->isActive()) {
+            return $this->redirectToRoute('overnightstays');
+        }
+
         $osDataPersister->remove($overnightStay);
         return $this->redirectToRoute('overnightstays');
     }

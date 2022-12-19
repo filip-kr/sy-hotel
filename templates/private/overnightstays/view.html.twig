@@ -53,9 +53,9 @@
                       <a class="dropdown-item" href="{{ path('overnightstays-changestatus', { id: os.id }) }}">Promijeni status</a>
                     </li>
                     {% if os.isActive == false %}
-                    <li>
-                      <a class="dropdown-item delete-item" href="{{ path('overnightstays-delete', { id: os.id }) }}">Obriši</a>
-                    </li>
+                      <li>
+                        <a class="dropdown-item delete-item" href="{{ path('overnightstays-delete', { id: os.id }) }}">Obriši</a>
+                      </li>
                     {% endif %}
                     <li>
                       <hr class="dropdown-divider" />

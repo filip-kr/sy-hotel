@@ -30,11 +30,20 @@
                     <li>
                       <a class="dropdown-item" href="{{ path('rooms-update', { id: room.id }) }}">Uredi</a>
                     </li>
-                    {# <?php if (Soba::getVanjskiKljucevi($s->sifra)) : ?> #}
-                    <li>
-                      <a class="dropdown-item delete-item" href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
-                    </li>
-                    {# <?php endif; ?> #}
+                    {% if room.overnightStays is empty %}
+                      <li>
+                        <a class="dropdown-item delete-item" href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
+                      </li>
+                    {% else %}
+                      {% for os in room.overnightStays %}
+                        {% if os.isActive == true %}
+                        {% else %}
+                          <li>
+                            <a class="dropdown-item delete-item" href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
+                          </li>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
                   </ul>
                 </div>
               </td>
