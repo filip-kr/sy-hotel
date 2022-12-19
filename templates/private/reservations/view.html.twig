@@ -21,7 +21,7 @@
         <tbody>
           {% for reservation in reservations %}
             <tr>
-              <th scope="row">{{ reservation.guest.firstName }}</th>
+              <td>{{ reservation.guest.firstName }}</td>
               <td>{{ reservation.guest.lastName }}</td>
               <td>{{ reservation.guest.email }}</td>
               {% if reservation.guest.oib is defined and reservation.guest.oib is not null %}

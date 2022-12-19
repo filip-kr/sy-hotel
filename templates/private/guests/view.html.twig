@@ -21,7 +21,7 @@
         <tbody>
           {% for guest in guests %}
             <tr>
-              <th scope="row">{{ guest.firstName }}</th>
+              <td>{{ guest.firstName }}</td>
               <td>{{ guest.lastName }}</td>
               <td>{{ guest.email }}</td>
               <td>{{ guest.dob|date('d.m.Y.') }}</td>
