@@ -1,15 +1,15 @@
-{%  set error =  form_errors(attribute)|striptags %}
+{% set error = form_errors(attribute)|striptags %}
 {{ form_label(attribute) }}
 {% if error is empty %}
-    {{ form_widget(attribute, {'attr': {'class': 'form-control'}}) }}
+  {{ form_widget(attribute, { attr: { class: 'form-control' } }) }}
 {% else %}
-    {{ form_widget(attribute, {'attr': {
-        'style': 'display:block',
-        'class': 'form-control',
-        'title': 'Error',
-        'data-placement': 'top',
-        'data-toggle': 'popover',
-        'data-trigger': 'focus',
-        'data-content': error}}) }}
-        <h5 style= "color:red">Neispravan unos</h5>
+  {{ form_widget(attribute, { attr: { 
+    style: 'display:block', 
+    class: 'form-control', 
+    title: 'Error', 
+    'data-placement': 'top', 
+    'data-toggle': 'popover', 
+    'data-trigger': 'focus', 
+    'data-content': error } }) }}
+  <h5 style="color:red">Neispravan unos</h5>
 {% endif %}
