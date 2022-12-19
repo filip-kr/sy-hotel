@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DataPersister\ReservationDataPersister;
+use App\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,5 +51,40 @@ class ReservationController extends AbstractController
         return $this->render('private/reservations/action.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/reservations/update/{id}', name: 'reservations-update')]
+    public function update(
+        Reservation $reservation,
+        Request $request,
+        ReservationDataPersister $reservationDataPersister
+    ): Response 
+    {
+        $form = $this->createForm(
+            ReservationForm::class,
+            $reservation
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $reservationDataPersister->save($form->getData());
+                return $this->redirectToRoute('reservations');
+            }
+        }
+
+        return $this->render('private/reservations/action.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/reservations/delete/{id}', name: 'reservations-delete')]
+    public function delete(
+        Reservation $reservation,
+        ReservationDataPersister $reservationDataPersister
+    ): Response 
+    {
+        $reservationDataPersister->remove($reservation);
+        return $this->redirectToRoute('reservations');
     }
 }
