@@ -33,9 +33,8 @@ class OvernightStay
     #[ORM\Column(
         name: 'is_active',
         type: 'boolean',
-        nullable: false
+        nullable: true
     )]
-    #[Assert\NotBlank]
     private ?bool $isActive = null;
 
     #[ORM\OneToOne(
