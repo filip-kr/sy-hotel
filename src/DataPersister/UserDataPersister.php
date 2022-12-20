@@ -11,9 +11,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserDataPersister
 {
     public function __construct(
-        private EntityManagerInterface $entityManager, 
+        private EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher
-    )
+    ) 
     {
         $this->passwordHasher = $passwordHasher;
     }
@@ -23,7 +23,8 @@ final class UserDataPersister
         return new User();
     }
 
-    public function getHashPassword($user, $password) {
+    public function getHashPassword($user, $password): array
+    {
         return $this->passwordHasher->hashPassword(
             $user,
             $password
