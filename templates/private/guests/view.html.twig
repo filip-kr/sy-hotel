@@ -52,11 +52,11 @@
       </table>
     </div>
   </div>
-  {% include 'confirmdelete.html.twig' %}
 {% endblock %}
 
 {% block scripts %}
   {{ parent() }}
+  {% include 'confirmdelete.html.twig' %}
   {% include 'partials/scripts/datatables.html.twig' %}
 
   <script>

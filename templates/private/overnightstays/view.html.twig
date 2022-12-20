@@ -72,12 +72,12 @@
       </table>
     </div>
   </div>
-  {% include 'confirmdelete.html.twig' %}
 {% endblock %}
 
 {% block scripts %}
   {{ parent() }}
   {% include 'partials/scripts/datatables.html.twig' %}
+  {% include 'confirmdelete.html.twig' %}
 
   <script>
     // Delete modal
