@@ -23,7 +23,7 @@ final class UserDataPersister
         return new User();
     }
 
-    public function getHashPassword($user, $password): array
+    public function getHashPassword($user, $password): string
     {
         return $this->passwordHasher->hashPassword(
             $user,
