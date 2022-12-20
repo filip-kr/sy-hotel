@@ -60,8 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $email = null;
 
-    #[ORM\Column]
-    #[Assert\NotBlank]
+    #[ORM\Column(name: 'roles')]
     private array $roles = [];
 
     /**
@@ -73,10 +72,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(
         name: 'is_verified',
         type: 'boolean',
-        nullable: false
+        nullable: true
     )]
-    #[Assert\NotBlank]
-    private ?bool $isVerified;
+    private ?bool $isVerified = false;
 
     public function getId(): ?int
     {
@@ -163,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getIsVerified(): ?bool
+    public function isVerified(): bool
     {
         return $this->isVerified;
     }

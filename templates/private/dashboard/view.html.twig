@@ -90,7 +90,7 @@
     <div class="mb-5">
       {% if 'ROLE_ADMIN' in app.user.roles %}
         <div class="d-grid gap-2 mb-2">
-          <a href="#" class="btn btn-primary">Novi operater</a>
+          <a href="{{ path('register') }}" class="btn btn-primary">Novi operater</a>
         </div>
       {% endif %}
       <table class="table table-hover table-bordered">
