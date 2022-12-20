@@ -7,7 +7,7 @@
     </div>
     <p class="lead text-center mb-2">Statistika</p>
     <div class="row justify-content-center">
-      <!-- Broj gostiju -->
+      <!-- Guest count -->
       <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
           <div class="card-body">
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <!-- Ukupno rezervacija -->
+      <!-- Reservation count -->
       <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
           <div class="card-body">
@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <!-- Aktivna noćenja -->
+      <!-- Active overnight stay count -->
       <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
           <div class="card-body">
@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <!-- Soba dostupno -->
+      <!-- Available room count -->
       <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
           <div class="card-body">
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <!-- Graf -->
+    <!-- Chart -->
     <div class="row justify-content-center mb-5">
       <div class="card-body">
         <div class="chart-bar pt-4 pb-2">
@@ -126,10 +126,8 @@
 
 {% block scripts %}
   {{ parent() }}
-    {% include 'partials/scripts/chart.html.twig' %}
+  {% include 'partials/scripts/chart.html.twig' %}
   {% include 'partials/scripts/datatables.html.twig' %}
-
-
 
   <script>
     // Delete modal

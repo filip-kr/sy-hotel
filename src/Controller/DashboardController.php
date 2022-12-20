@@ -8,7 +8,9 @@ use App\Service\StatisticsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+#[Security("is_granted('ROLE_USER')")]
 class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'dashboard')]
@@ -21,10 +23,9 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    // #[Route('/dashboard/reservationdata', name: 'dashboard-resdata')]
-    // public function getSignInDates(StatisticsService $statisticsService): Response
-    // {
-    //     dd($statisticsService->getSignInDates());
-    //     return new Response(json_encode($statisticsService->getSignInDates()));
-    // }
+    #[Route('/dashboard/reservationdata', name: 'dashboard-resdata')]
+    public function getSignInDates(StatisticsService $statisticsService): Response
+    {
+        return new Response(json_encode($statisticsService->getReservationMonths()));
+    }
 }

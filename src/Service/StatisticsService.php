@@ -34,16 +34,19 @@ final class StatisticsService
         ];
     }
 
-    // public function getSignInDates(): array
-    // {
-    //     $reservations = $this->reservationRepository->findAll();
-    //     $months = [];
+    public function getReservationMonths(): array
+    {
+        $reservations = $this->reservationRepository->findAll();
+        $months = [];
 
-    //     foreach ($reservations as $reservation) {
-    //         $months[date_format($reservation->getSignInDate(), 'm')] = date_format($reservation->getSignInDate(), 'm');
-    //     };
+        for ($i = 1; $i <= 12; $i++) {
+            $months[$i] = 0;
+        }
 
-    //     return $months;
-        
-    // }
+        foreach ($reservations as $reservation) {
+            $months[(int)date_format($reservation->getSignInDate(), 'm')]++;
+        }
+
+        return $months;
+    }
 }

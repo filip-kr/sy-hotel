@@ -10,17 +10,17 @@ $(document).ready(function () {
                 type: 'bar',
                 data: {
                     labels:
-                        ['Siječan', 'Veljača', 'Ožujak',
+                            ['Siječanj', 'Veljača', 'Ožujak',
                             'Travanj', 'Svibanj', 'Lipanj',
                             'Srpanj', 'Kolovoz', 'Rujan',
                             'Listopad', 'Studeni', 'Prosinac'],
                     datasets: [{
                         label: 'Broj rezervacija',
                         data:
-                            [data['01'], data['02'], data['03'],
-                            data['04'], data['05'], data['06'],
-                            data['07'], data['08'], data['09'],
-                            data['10'], data['11'], data['12']],
+                            [data[01], data[02], data[03],
+                            data[04], data[05], data[06],
+                            data[07], data[08], data[09],
+                            data[10], data[11], data[12]],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
