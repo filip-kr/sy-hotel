@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -13,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\CallbackTransformer;
 
-class RegistrationFormType extends AbstractType
+class RegistrationForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -36,10 +37,15 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('email')
-            ->add('plainPassword', PasswordType::class, [
-                'label' => 'Lozinka',
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'label' => 'Lozinka mora sadržavati najmanje 8 znakova',
+                'invalid_message' => 'Lozinke se ne podudaraju',
+                'required' => true,
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
+                'first_options'  => ['label' => 'Lozinka'],
+                'second_options' => ['label' => 'Ponovi lozinku'],
                 'constraints' => [
                     new NotBlank([]),
                     new Length([

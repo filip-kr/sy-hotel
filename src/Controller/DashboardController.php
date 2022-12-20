@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\DataPersister\UserDataPersister;
 use App\Entity\User;
+use App\Form\RegistrationForm;
 use App\Repository\UserRepository;
 use App\Service\StatisticsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\RegistrationFormType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Security("is_granted('ROLE_USER')")]
 class DashboardController extends AbstractController
@@ -43,17 +44,24 @@ class DashboardController extends AbstractController
     public function update(
         User $user,
         Request $request,
-        UserDataPersister $userDataPersister
+        UserDataPersister $userDataPersister,
+        UserPasswordHasherInterface $userPasswordHasher
     ): Response 
     {
         $form = $this->createForm(
-            RegistrationFormType::class,
+            RegistrationForm::class,
             $user
         );
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
                 $userDataPersister->save($form->getData());
                 return $this->redirectToRoute('dashboard');
             }
