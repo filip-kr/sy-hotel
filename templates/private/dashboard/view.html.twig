@@ -122,10 +122,10 @@
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
                     <ul class="dropdown-menu">
                       <li>
-                        <a class="dropdown-item" href="#">Uredi</a>
+                        <a class="dropdown-item" href="{{ path('dashboard-userupdate', { id: user.id }) }}">Uredi</a>
                       </li>
                       <li>
-                        <a class="dropdown-item delete-item" href="#">Obriši</a>
+                        <a class="dropdown-item delete-item" href="{{ path('dashboard-userdelete', { id: user.id }) }}">Obriši</a>
                       </li>
                     </ul>
                   </div>
