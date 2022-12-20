@@ -85,49 +85,64 @@
       </div>
     </div>
 
-    <!-- Operateri -->
-    {# <p class="lead text-center mt-5 mb-2">Operateri</p>
+    <!-- Users -->
+    <p class="lead text-center mt-5 mb-2">Operateri</p>
     <div class="mb-5">
-      <?php if ($trenutniOperater->uloga == 'administrator') : ?><div class="d-grid gap-2 mb-2">
-        <a href="<?= App::ucitajKonf('url') ?>nadzornaploca/novioperater/" class="btn btn-primary">Novi operater</a>
-      </div><?php endif; ?><table class="table table-hover table-bordered">
+      {% if 'ROLE_ADMIN' in app.user.roles %}
+        <div class="d-grid gap-2 mb-2">
+          <a href="#" class="btn btn-primary">Novi operater</a>
+        </div>
+      {% endif %}
+      <table class="table table-hover table-bordered">
         <thead>
           <tr>
             <th scope="col">E-mail</th>
             <th scope="col">Ime</th>
             <th scope="col">Prezime</th>
-            <th scope="col">Uloga</th><?php if ($trenutniOperater->uloga == 'administrator') : ?><th scope="col">Akcija</th><?php endif; ?>
+            <th scope="col">Uloga</th>
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+              <th scope="col">Akcija</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($operateri as $o) : ?><tr>
-            <td><?= $o->email ?></td>
-            <td><?= $o->ime ?></td>
-            <td><?= $o->prezime ?></td>
-            <td><?= ucfirst($o->uloga) ?></td><?php if ($trenutniOperater->uloga == 'administrator') : ?><td>
-              <div class="btn-group dropstart d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>nadzornaploca/izmjenaoperatera/<?= $o->sifra ?>">Uredi</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="<?= App::ucitajKonf('url') ?>nadzornaploca/brisanjeoperatera/<?= $o->sifra ?>" onclick="return confirm('Sigurno želite obrisati operatera <?= $o->ime . ' ' . $o->prezime ?>?');">Obriši</a>
-                  </li>
-                </ul>
-              </div>
-            </td><?php endif; ?>
-          </tr><?php endforeach; ?>
+          {% for user in users %}
+            <tr>
+              <td>{{ user.email }}</td>
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.lastName }}</td>
+              {% if 'ROLE_ADMIN' in user.roles %}
+                <td>Administrator</td>
+              {% else %}
+                <td>Operater</td>
+              {% endif %}
+              {% if 'ROLE_ADMIN' in app.user.roles %}
+                <td>
+                  <div class="btn-group dropstart d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="#">Uredi</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item delete-item" href="#">Obriši</a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
-  </div><?= $skriptaJquery ?> <?= $skriptaChartJs ?> <?= $skriptaGrafAjax ?>{% include 'confirmdelete.html.twig' %} #}
+  </div>
 {% endblock %}
 
 {% block scripts %}
   {{ parent() }}
   {% include 'partials/scripts/chart.html.twig' %}
-  {% include 'partials/scripts/datatables.html.twig' %}
+  {% include 'confirmdelete.html.twig' %}
 
   <script>
     // Delete modal
@@ -136,15 +151,6 @@
       $('#messageModal').html($(this).parent().prev().prev().html())
       $('#modalDelete').modal('show')
       return false
-    })
-    
-    // DataTables
-    $(document).ready(function () {
-      $('#guestsTable').DataTable({
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
-        }
-      })
     })
   </script>
 {% endblock %}

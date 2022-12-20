@@ -42,7 +42,7 @@ final class AppFixtures extends Fixture
             ->setLastName('Vereš')
             ->setEmail('user@syhotel.com')
             ->setRoles(['ROLE_USER'])
-            ->setPassword($this->userDataPersister->getHashPassword($user, 'user'))
+            ->setPassword($this->userDataPersister->getHashPassword($user, 'user256'))
             ->setIsVerified(true);
         $this->userDataPersister->save($user);
         $manager->persist($user);
