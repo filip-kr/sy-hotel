@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 #[UniqueEntity(fields: 'number')]
@@ -56,13 +57,13 @@ class Room
 
     #[ORM\Column(
         name: 'price',
-        type: 'integer',
+        type: Types::DECIMAL,
+        precision: 5,
+        scale: 2,
         nullable: false
     )]
-    #[Assert\Length(
-        max: 10
-    )]
-    private ?int $price = null;
+    #[Assert\NotBlank]
+    private ?string $price = null;
 
     #[ORM\OneToMany(
         mappedBy: 'room',
@@ -117,12 +118,12 @@ class Room
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?string
     {
         return $this->price;
     }
 
-    public function setPrice(int $price): self
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 

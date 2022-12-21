@@ -23,6 +23,7 @@ class OvernightStay
     private ?Room $room = null;
 
     #[ORM\Column(
+        name: 'total_price',
         type: Types::DECIMAL,
         precision: 5,
         scale: 2,

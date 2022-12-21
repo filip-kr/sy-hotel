@@ -44,7 +44,7 @@
     <hr />
     <div>
       <span>Ostalo</span>
-      <p>&euro;{{ os.totalPrice - os.room.price }}</p>
+      <p>&euro;{{ (os.totalPrice - os.room.price)|number_format(2) }}</p>
     </div>
     <hr />
     <div>
