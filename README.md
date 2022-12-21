@@ -8,10 +8,10 @@ Sačuvane su sve funkcionalnosti uz neke manje preinake.
 
 ### Galerija
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/102315034/208883823-10597ee4-3b11-4d16-a3b4-48a851c174a9.png" width="300"/>
-  <img src="https://user-images.githubusercontent.com/102315034/208883126-b8acce65-e6b9-4072-b0c2-f2f21b6900d1.png" width="300"/>
-  <img src="https://user-images.githubusercontent.com/102315034/208751075-6b44e044-f51a-40ac-865d-86bd4b767ae5.png" width="300"/>
-  <img src="https://user-images.githubusercontent.com/102315034/208879810-1e67f524-e547-4201-a755-a9460828a648.png" width="300"/>
-  <img src="https://user-images.githubusercontent.com/102315034/208751095-abeb287e-e49a-41b1-a094-186cf641a359.png" width="300"/>
-  <img src="https://user-images.githubusercontent.com/102315034/208883128-d0e0822c-0b85-4003-8183-8781cb9f7fd5.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/102315034/208886740-96e5fb50-33e4-4ac2-8ec3-820572f312fd.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/102315034/208886744-e078cec1-fd95-4fe6-adb1-1d223d93e4a3.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/102315034/208886732-6906d781-8b83-421a-be7a-e4e21668de85.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/102315034/208886737-ad79fb6f-4aba-470f-83d8-bb83dea534f7.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/102315034/208887285-f0d46ace-1c40-4019-b9d1-b1d616fbea83.png" width="300"/>
+  <img src="https://user-images.githubusercontent.com/102315034/208886748-1b889cfd-8efe-4d04-85aa-4451c78a1c69.png" width="300"/>
 </p>
