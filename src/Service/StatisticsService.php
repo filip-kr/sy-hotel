@@ -11,22 +11,27 @@ use App\Repository\RoomRepository;
 
 final class StatisticsService
 {
+    /**
+     * @param GuestRepository $guestRepository
+     * @param OvernightStayRepository $overnightStayRepository
+     * @param ReservationRepository $reservationRepository
+     * @param RoomRepository $roomRepository
+     */
     public function __construct(
-        GuestRepository $guestRepository,
-        OvernightStayRepository $overnightStayRepository,
-        ReservationRepository $reservationRepository,
-        RoomRepository $roomRepository
-    ) 
+        private GuestRepository         $guestRepository,
+        private OvernightStayRepository $overnightStayRepository,
+        private ReservationRepository   $reservationRepository,
+        private RoomRepository          $roomRepository
+    )
     {
-        $this->guestRepository = $guestRepository;
-        $this->overnightStayRepository = $overnightStayRepository;
-        $this->reservationRepository = $reservationRepository;
-        $this->roomRepository = $roomRepository;
     }
 
+    /**
+     * @return array
+     */
     public function getDataCount(): array
     {
-        return $dataCount = [
+        return [
             'guestCount' => count($this->guestRepository->findAll()),
             'reservationCount' => count($this->reservationRepository->findAll()),
             'activeStayCount' => count($this->overnightStayRepository->findBy(['isActive' => true])),
@@ -34,6 +39,9 @@ final class StatisticsService
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getReservationMonths(): array
     {
         $reservations = $this->reservationRepository->findAll();

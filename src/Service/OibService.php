@@ -6,6 +6,10 @@ namespace App\Service;
 
 final class OibService
 {
+    /**
+     * @param string|null $oib
+     * @return bool
+     */
     public function isOibValid(?string $oib): bool
     {
         if (strlen($oib) != 11) {

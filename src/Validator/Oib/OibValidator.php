@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Validator\Oib;
 
-use App\Validator\Oib\Oib;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -13,18 +12,25 @@ use App\Service\OibService;
 
 class OibValidator extends ConstraintValidator
 {
-    public function __construct(OibService $oibService)
+    /**
+     * @param OibService $oibService
+     */
+    public function __construct(private OibService $oibService)
     {
-        $this->oibService = $oibService;
     }
 
+    /**
+     * @param $value
+     * @param Constraint $constraint
+     * @return void
+     */
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof Oib) {
             throw new UnexpectedTypeException($constraint, Oib::class);
         }
 
-        if (null === $value || '' === $value) {
+        if (!$value || $value === '') {
             return;
         }
 

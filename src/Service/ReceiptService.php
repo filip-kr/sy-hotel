@@ -9,18 +9,30 @@ use Twig\Environment;
 use Knp\Snappy\Pdf;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 final class ReceiptService
 {
+    /**
+     * @param Environment $twig
+     * @param Pdf $pdf
+     */
     public function __construct(
-        Environment $twig,
-        Pdf $pdf,
-    ) 
+        private Environment $twig,
+        private Pdf         $pdf
+    )
     {
-        $this->twig = $twig;
-        $this->pdf = $pdf;
     }
 
+    /**
+     * @param OvernightStay|null $os
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function generateReceipt(?OvernightStay $os): void
     {
         $this->pdf->setOption('encoding', 'UTF8');
@@ -34,6 +46,9 @@ final class ReceiptService
         ));
     }
 
+    /**
+     * @return string
+     */
     private function generateQrCode(): string
     {
         $qrOptions = new QROptions(
@@ -43,14 +58,12 @@ final class ReceiptService
             ]
         );
 
-        $qrCode = (new QRCode($qrOptions))->render('
+        return (new QRCode($qrOptions))->render('
         Symfony Hotel
         IBAN: HR2825000092198375352
         Ulica Kompozitora 256, Osijek
 
         github.com/filip-kr
         ');
-
-        return $qrCode;
     }
 }
