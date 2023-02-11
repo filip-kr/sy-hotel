@@ -11,10 +11,8 @@ use App\Repository\UserRepository;
 use App\Service\StatisticsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
@@ -23,14 +21,12 @@ class DashboardController extends AbstractController
     /**
      * @param UserRepository $userRepository
      * @param UserDataPersisterInterface $userDataPersister
-     * @param UserPasswordHasher $userPasswordHasher
      * @param StatisticsService $statisticsService
      */
     public function __construct(
-        private UserRepository              $userRepository,
-        private UserDataPersisterInterface  $userDataPersister,
-        private UserPasswordHasherInterface $userPasswordHasher,
-        private StatisticsService           $statisticsService
+        private UserRepository             $userRepository,
+        private UserDataPersisterInterface $userDataPersister,
+        private StatisticsService          $statisticsService
     )
     {
     }
@@ -75,7 +71,7 @@ class DashboardController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
-                $this->userPasswordHasher->hashPassword(
+                $this->userDataPersister->getHashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )

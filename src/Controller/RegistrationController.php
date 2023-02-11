@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -22,16 +21,14 @@ class RegistrationController extends AbstractController
     /**
      * @param UserRepository $repository
      * @param UserDataPersisterInterface $dataPersister
-     * @param UserPasswordHasherInterface $passwordHasher
      * @param EmailVerifierService $emailVerifier
      * @param TranslatorInterface $translator
      */
     public function __construct(
-        private UserRepository              $repository,
-        private UserDataPersisterInterface  $dataPersister,
-        private UserPasswordHasherInterface $passwordHasher,
-        private EmailVerifierService        $emailVerifier,
-        private TranslatorInterface         $translator
+        private UserRepository             $repository,
+        private UserDataPersisterInterface $dataPersister,
+        private EmailVerifierService       $emailVerifier,
+        private TranslatorInterface        $translator
     )
     {
     }
@@ -50,7 +47,7 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
-                $this->passwordHasher->hashPassword(
+                $this->dataPersister->getHashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
