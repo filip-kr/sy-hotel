@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\OvernightStayFormType;
 use App\Service\ReceiptService;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 #[IsGranted('ROLE_USER')]
 class OvernightStayController extends AbstractController
@@ -102,6 +105,9 @@ class OvernightStayController extends AbstractController
     /**
      * @param OvernightStay $overnightStay
      * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     #[Route('/overnightstays/print/{id}', name: 'overnightstays-print')]
     public function printReceipt(OvernightStay $overnightStay): void

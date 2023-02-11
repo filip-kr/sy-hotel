@@ -23,13 +23,13 @@ class RoomFormType extends AbstractType
     {
         $builder
             ->add('number', NumberType::class, [
-                'label' => 'Broj sobe*',
+                'label' => 'Broj sobe *',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('numberOfBeds', NumberType::class, [
-                'label' => 'Broj kreveta*',
+                'label' => 'Broj kreveta *',
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -42,7 +42,7 @@ class RoomFormType extends AbstractType
                 'required' => false
             ])
             ->add('price', MoneyType::class, [
-                'label' => 'Cijena noćenja*',
+                'label' => 'Cijena noćenja *',
                 'attr' => [
                     'class' => 'form-control'
                 ]

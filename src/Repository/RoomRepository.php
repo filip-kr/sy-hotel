@@ -10,11 +10,17 @@ use Doctrine\Persistence\ManagerRegistry;
 
 final class RoomRepository extends ServiceEntityRepository
 {
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Room::class);
     }
 
+    /**
+     * @return array
+     */
     public function getAvailable(): array
     {
         $query = $this->createQueryBuilder('r')

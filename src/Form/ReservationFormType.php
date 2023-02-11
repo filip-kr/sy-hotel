@@ -24,20 +24,20 @@ class ReservationFormType extends AbstractType
         $builder
             ->add('guest', EntityType::class, [
                 'class' => Guest::class,
-                'label' => 'Gost*',
+                'label' => 'Gost',
                 'choice_label' => 'email',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('sign_in_date', DateTimeType::class, [
-                'label' => 'Datum prijave*',
+                'label' => 'Datum prijave',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('sign_out_date', DateTimeType::class, [
-                'label' => 'Datum odjave*',
+                'label' => 'Datum odjave',
                 'attr' => [
                     'class' => 'form-control'
                 ]

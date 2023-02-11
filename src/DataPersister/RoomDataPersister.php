@@ -10,6 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class RoomDataPersister implements RoomDataPersisterInterface
 {
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(private EntityManagerInterface $entityManager)
     {
     }

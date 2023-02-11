@@ -11,6 +11,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class UserDataPersister implements UserDataPersisterInterface
 {
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param UserPasswordHasherInterface $passwordHasher
+     */
     public function __construct(
         private EntityManagerInterface      $entityManager,
         private UserPasswordHasherInterface $passwordHasher

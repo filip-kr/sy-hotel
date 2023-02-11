@@ -24,7 +24,7 @@ class GuestFormType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'Ime*',
+                'label' => 'Ime *',
                 'attr' => [
                     'class' => 'form-control'
                 ]
