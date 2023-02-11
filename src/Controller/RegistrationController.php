@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DataPersister\UserDataPersister;
-use App\Entity\User;
+use App\Contract\DataPersister\UserDataPersisterInterface;
 use App\Form\RegistrationForm;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
@@ -21,33 +20,43 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    private EmailVerifier $emailVerifier;
-
-    public function __construct(EmailVerifier $emailVerifier)
+    /**
+     * @param UserRepository $repository
+     * @param UserDataPersisterInterface $dataPersister
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @param EmailVerifier $emailVerifier
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(
+        private UserRepository              $repository,
+        private UserDataPersisterInterface  $dataPersister,
+        private UserPasswordHasherInterface $passwordHasher,
+        private EmailVerifier               $emailVerifier,
+        private TranslatorInterface         $translator
+    )
     {
-        $this->emailVerifier = $emailVerifier;
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/register', name: 'register')]
-    public function register(
-        Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
-        UserDataPersister $userDataPersister
-    ): Response 
+    public function register(Request $request): Response
     {
-        $user = new User();
+        $user = $this->dataPersister->create();
         $form = $this->createForm(RegistrationForm::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
-                $userPasswordHasher->hashPassword(
+                $this->passwordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
 
-            $userDataPersister->save($form->getData());
+            $this->dataPersister->save($form->getData());
 
             $this->emailVerifier->sendEmailConfirmation(
                 'verify_email',
@@ -68,28 +77,24 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'verify_email')]
-    public function verifyUserEmail(
-        Request $request,
-        TranslatorInterface $translator,
-        UserRepository $userRepository
-    ): Response 
+    public function verifyUserEmail(Request $request): Response
     {
         $id = $request->get('id');
 
-        if (null === $id) {
+        if (!$id) {
             return $this->redirectToRoute('register');
         }
 
-        $user = $userRepository->find($id);
+        $user = $this->repository->find($id);
 
-        if (null === $user) {
+        if (!$user) {
             return $this->redirectToRoute('register');
         }
 
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+            $this->addFlash('verify_email_error', $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
             return $this->redirectToRoute('register');
         }

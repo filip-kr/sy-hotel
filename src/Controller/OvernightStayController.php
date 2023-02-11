@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DataPersister\OvernightStayDataPersister;
+use App\Contract\DataPersister\OvernightStayDataPersisterInterface;
 use App\Entity\OvernightStay;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,23 +18,35 @@ use App\Service\ReceiptService;
 #[Security("is_granted('ROLE_USER')")]
 class OvernightStayController extends AbstractController
 {
-    #[Route('/overnightstays', name: 'overnightstays')]
-    public function index(OvernightStayRepository $overnightStayRepository): Response
+    public function __construct(
+        private OvernightStayRepository             $repository,
+        private OvernightStayDataPersisterInterface $dataPersister,
+        private ReceiptService                      $receiptService
+    )
     {
-        $overnightStays = $overnightStayRepository->findAll();
+    }
+
+    /**
+     * @return Response
+     */
+    #[Route('/overnightstays', name: 'overnightstays')]
+    public function index(): Response
+    {
+        $overnightStays = $this->repository->findAll();
 
         return $this->render('private/overnightstays/view.html.twig', [
             'overnightStays' => $overnightStays
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/overnightstays/create', name: 'overnightstays-create')]
-    public function create(
-        Request $request,
-        OvernightStayDataPersister $osDataPersister
-    ): Response 
+    public function create(Request $request): Response
     {
-        $overnightStay = $osDataPersister->create();
+        $overnightStay = $this->dataPersister->create();
 
         $form = $this->createForm(
             OvernightStayForm::class,
@@ -42,11 +54,10 @@ class OvernightStayController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $osDataPersister->save($form->getData());
-                return $this->redirectToRoute('overnightstays');
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->dataPersister->save($form->getData());
+
+            return $this->redirectToRoute('overnightstays');
         }
 
         return $this->render('private/overnightstays/action.html.twig', [
@@ -54,49 +65,47 @@ class OvernightStayController extends AbstractController
         ]);
     }
 
+    /**
+     * @param OvernightStay $overnightStay
+     * @return Response
+     */
     #[Route('/overnightstays/changestatus/{id}', name: 'overnightstays-changestatus')]
-    public function changeStatus(
-        OvernightStay $overnightStay,
-        OvernightStayDataPersister $osDataPersister
-    ): Response 
+    public function changeStatus(OvernightStay $overnightStay): Response
     {
-        if ($overnightStay->isActive()) {
-            $overnightStay->setIsActive(false);
-        } else {
-            $overnightStay->setIsActive(true);
-        }
-
-        $osDataPersister->save($overnightStay);
+        $reverseStatus = !$overnightStay->isActive();
+        $overnightStay->setIsActive($reverseStatus);
+        $this->dataPersister->save($overnightStay);
 
         return $this->redirectToRoute('overnightstays');
     }
 
+    /**
+     * @param OvernightStay $overnightStay
+     * @return Response
+     */
     #[Route('/overnightstays/delete/{id}', name: 'overnightstays-delete')]
-    public function delete(
-        OvernightStay $overnightStay,
-        OvernightStayDataPersister $osDataPersister
-    ): Response 
+    public function delete(OvernightStay $overnightStay): Response
     {
         if ($overnightStay->isActive()) {
             return $this->redirectToRoute('overnightstays');
         }
 
-        $osDataPersister->remove($overnightStay);
+        $this->dataPersister->remove($overnightStay);
         return $this->redirectToRoute('overnightstays');
     }
 
+    /**
+     * @param OvernightStay $overnightStay
+     * @return void
+     */
     #[Route('/overnightstays/print/{id}', name: 'overnightstays-print')]
-    public function printReceipt(
-        OvernightStay $overnightStay,
-        OvernightStayDataPersister $osDataPersister,
-        ReceiptService $receiptService
-    ): void 
+    public function printReceipt(OvernightStay $overnightStay): void
     {
         if ($overnightStay->isActive()) {
             $overnightStay->setIsActive(false);
         }
-        $osDataPersister->save($overnightStay);
 
-        $receiptService->generateReceipt($overnightStay);
+        $this->dataPersister->save($overnightStay);
+        $this->receiptService->generateReceipt($overnightStay);
     }
 }

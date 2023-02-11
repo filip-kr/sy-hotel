@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Contract\DataPersister\RoomDataPersisterInterface;
 use App\DataPersister\RoomDataPersister;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,23 +18,38 @@ use App\Entity\Room;
 #[Security("is_granted('ROLE_USER')")]
 class RoomController extends AbstractController
 {
-    #[Route('/rooms', name: 'rooms')]
-    public function index(RoomRepository $roomRepository): Response
+    /**
+     * @param RoomRepository $repository
+     * @param RoomDataPersisterInterface $dataPersister
+     */
+    public function __construct(
+        private RoomRepository             $repository,
+        private RoomDataPersisterInterface $dataPersister
+    )
     {
-        $rooms = $roomRepository->findAll();
+    }
+
+    /**
+     * @return Response
+     */
+    #[Route('/rooms', name: 'rooms')]
+    public function index(): Response
+    {
+        $rooms = $this->repository->findAll();
 
         return $this->render('private/rooms/view.html.twig', [
             'rooms' => $rooms
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/rooms/create', name: 'rooms-create')]
-    public function create(
-        Request $request,
-        RoomDataPersister $roomDataPersister
-    ): Response 
+    public function create(Request $request): Response
     {
-        $room = $roomDataPersister->create();
+        $room = $this->dataPersister->create();
 
         $form = $this->createForm(
             RoomForm::class,
@@ -41,11 +57,10 @@ class RoomController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $roomDataPersister->save($form->getData());
-                return $this->redirectToRoute('rooms');
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->dataPersister->save($form->getData());
+
+            return $this->redirectToRoute('rooms');
         }
 
         return $this->render('private/rooms/action.html.twig', [
@@ -54,11 +69,7 @@ class RoomController extends AbstractController
     }
 
     #[Route('/rooms/update/{id}', name: 'rooms-update')]
-    public function update(
-        Room $room,
-        Request $request,
-        RoomDataPersister $roomDataPersister
-    ): Response 
+    public function update(Room $room, Request $request): Response
     {
         $form = $this->createForm(
             RoomForm::class,
@@ -66,11 +77,10 @@ class RoomController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $roomDataPersister->save($form->getData());
-                return $this->redirectToRoute('rooms');
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->dataPersister->save($form->getData());
+
+            return $this->redirectToRoute('rooms');
         }
 
         return $this->render('private/rooms/action.html.twig', [
@@ -79,10 +89,7 @@ class RoomController extends AbstractController
     }
 
     #[Route('/rooms/delete/{id}', name: 'rooms-delete')]
-    public function delete(
-        Room $room,
-        RoomDataPersister $roomDataPersister
-    ): Response 
+    public function delete(Room $room): Response
     {
         if ($room->getOvernightStays()) {
             foreach ($room->getOvernightStays() as $os) {
@@ -92,7 +99,7 @@ class RoomController extends AbstractController
             }
         }
 
-        $roomDataPersister->remove($room);
+        $this->dataPersister->remove($room);
         return $this->redirectToRoute('rooms');
     }
 }

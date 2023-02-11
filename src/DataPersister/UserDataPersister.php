@@ -4,26 +4,32 @@ declare(strict_types=1);
 
 namespace App\DataPersister;
 
+use App\Contract\DataPersister\UserDataPersisterInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-final class UserDataPersister
+final class UserDataPersister implements UserDataPersisterInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher
-    ) 
+        private EntityManagerInterface      $entityManager,
+        private UserPasswordHasherInterface $passwordHasher
+    )
     {
-        $this->passwordHasher = $passwordHasher;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(): User
     {
         return new User();
     }
 
-    public function getHashPassword($user, $password): string
+    /**
+     * @inheritDoc
+     */
+    public function getHashPassword(User $user, string $password): string
     {
         return $this->passwordHasher->hashPassword(
             $user,
@@ -31,12 +37,18 @@ final class UserDataPersister
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function save(User $user): void
     {
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function remove(User $user): void
     {
         $this->entityManager->remove($user);

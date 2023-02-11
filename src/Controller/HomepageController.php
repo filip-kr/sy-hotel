@@ -10,6 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomepageController extends AbstractController
 {
+    /**
+     * @return Response
+     */
     #[Route('/', name: 'homepage')]
     public function index(): Response
     {

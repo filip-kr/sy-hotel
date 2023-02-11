@@ -4,29 +4,45 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DataPersister\UserDataPersister;
+use App\Contract\DataPersister\UserDataPersisterInterface;
 use App\Entity\User;
 use App\Form\RegistrationForm;
 use App\Repository\UserRepository;
 use App\Service\StatisticsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Security("is_granted('ROLE_USER')")]
+#[IsGranted('ROLE_USER')]
 class DashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'dashboard')]
-    public function index(
-        StatisticsService $statisticsService,
-        UserRepository $userRepository
-    ): Response 
+    /**
+     * @param UserRepository $userRepository
+     * @param UserDataPersisterInterface $userDataPersister
+     * @param UserPasswordHasher $userPasswordHasher
+     * @param StatisticsService $statisticsService
+     */
+    public function __construct(
+        private UserRepository              $userRepository,
+        private UserDataPersisterInterface  $userDataPersister,
+        private UserPasswordHasherInterface $userPasswordHasher,
+        private StatisticsService           $statisticsService
+    )
     {
-        $users = $userRepository->findAll();
-        $dataCount = $statisticsService->getDataCount();
+    }
+
+    /**
+     * @return Response
+     */
+    #[Route('/dashboard', name: 'dashboard')]
+    public function index(): Response
+    {
+        $users = $this->userRepository->findAll();
+        $dataCount = $this->statisticsService->getDataCount();
 
         return $this->render('private/dashboard/view.html.twig', [
             'users' => $users,
@@ -34,19 +50,22 @@ class DashboardController extends AbstractController
         ]);
     }
 
+    /**
+     * @return Response
+     */
     #[Route('/dashboard/reservationdata', name: 'dashboard-resdata')]
-    public function getSignInDates(StatisticsService $statisticsService): Response
+    public function getSignInDates(): Response
     {
-        return new Response(json_encode($statisticsService->getReservationMonths()));
+        return new Response(json_encode($this->statisticsService->getReservationMonths()));
     }
 
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/dashboard/updateuser/{id}', name: 'dashboard-userupdate')]
-    public function update(
-        User $user,
-        Request $request,
-        UserDataPersister $userDataPersister,
-        UserPasswordHasherInterface $userPasswordHasher
-    ): Response 
+    public function update(User $user, Request $request): Response
     {
         $form = $this->createForm(
             RegistrationForm::class,
@@ -54,31 +73,31 @@ class DashboardController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
-                $userDataPersister->save($form->getData());
-                return $this->redirectToRoute('dashboard');
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $this->userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $this->userDataPersister->save($form->getData());
+
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('private/dashboard/registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView()
         ]);
     }
 
+    /**
+     * @param User $user
+     * @return Response
+     */
     #[Route('/dashboard/deleteuser/{id}', name: 'dashboard-userdelete')]
-    public function delete(
-        User $user,
-        UserDataPersister $userDataPersister
-    ): Response 
+    public function delete(User $user): Response
     {
-        $userDataPersister->remove($user);
+        $this->userDataPersister->remove($user);
         return $this->redirectToRoute('dashboard');
     }
 }

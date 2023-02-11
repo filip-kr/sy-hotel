@@ -22,3 +22,19 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Data Persisters
+    App\Contract\DataPersister\UserDataPersisterInterface:
+        class: App\DataPersister\UserDataPersister
+
+    App\Contract\DataPersister\GuestDataPersisterInterface:
+        class: App\DataPersister\GuestDataPersister
+
+    App\Contract\DataPersister\OvernightStayDataPersisterInterface:
+        class: App\DataPersister\OvernightStayDataPersister
+
+    App\Contract\DataPersister\ReservationDataPersisterInterface:
+        class: App\DataPersister\ReservationDataPersister
+
+    App\Contract\DataPersister\RoomDataPersisterInterface:
+        class: App\DataPersister\RoomDataPersister

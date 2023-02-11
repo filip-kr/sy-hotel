@@ -4,36 +4,51 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Contract\DataPersister\GuestDataPersisterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\GuestRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
-use App\DataPersister\GuestDataPersister;
 use App\Entity\Guest;
 use App\Form\GuestForm;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Security("is_granted('ROLE_USER')")]
+#[IsGranted('ROLE_USER')]
 class GuestController extends AbstractController
 {
-    #[Route('/guests', name: 'guests')]
-    public function index(GuestRepository $guestRepository): Response
+    /**
+     * @param GuestRepository $repository
+     * @param GuestDataPersisterInterface $dataPersister
+     */
+    public function __construct(
+        private GuestRepository             $repository,
+        private GuestDataPersisterInterface $dataPersister
+    )
     {
-        $guests = $guestRepository->findAll();
+    }
+
+    /**
+     * @return Response
+     */
+    #[Route('/guests', name: 'guests')]
+    public function index(): Response
+    {
+        $guests = $this->repository->findAll();
 
         return $this->render('private/guests/view.html.twig', [
             'guests' => $guests
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/guests/create', name: 'guests-create')]
-    public function create(
-        Request $request,
-        GuestDataPersister $guestDataPersister
-    ): Response 
+    public function create(Request $request): Response
     {
-        $guest = $guestDataPersister->create();
+        $guest = $this->dataPersister->create();
 
         $form = $this->createForm(
             GuestForm::class,
@@ -41,11 +56,10 @@ class GuestController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $guestDataPersister->save($form->getData());
-                return $this->redirectToRoute('guests');
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->dataPersister->save($form->getData());
+
+            return $this->redirectToRoute('guests');
         }
 
         return $this->render('private/guests/action.html.twig', [
@@ -53,12 +67,13 @@ class GuestController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Guest $guest
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/guests/update/{id}', name: 'guests-update')]
-    public function update(
-        Guest $guest,
-        Request $request,
-        GuestDataPersister $guestDataPersister
-    ): Response 
+    public function update(Guest $guest, Request $request): Response
     {
         $form = $this->createForm(
             GuestForm::class,
@@ -66,11 +81,10 @@ class GuestController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $guestDataPersister->save($form->getData());
-                return $this->redirectToRoute('guests');
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->dataPersister->save($form->getData());
+
+            return $this->redirectToRoute('guests');
         }
 
         return $this->render('private/guests/action.html.twig', [
@@ -78,17 +92,18 @@ class GuestController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Guest $guest
+     * @return Response
+     */
     #[Route('/guests/delete/{id}', name: 'guests-delete')]
-    public function delete(
-        Guest $guest,
-        GuestDataPersister $guestDataPersister
-    ): Response 
+    public function delete(Guest $guest): Response
     {
         if ($guest->getReservations()) {
             return $this->redirectToRoute('guests');
         }
 
-        $guestDataPersister->remove($guest);
+        $this->dataPersister->remove($guest);
         return $this->redirectToRoute('guests');
     }
 }

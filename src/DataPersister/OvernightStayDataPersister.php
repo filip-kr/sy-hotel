@@ -4,29 +4,39 @@ declare(strict_types=1);
 
 namespace App\DataPersister;
 
+use App\Contract\DataPersister\OvernightStayDataPersisterInterface;
 use App\Entity\OvernightStay;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class OvernightStayDataPersister
+final class OvernightStayDataPersister implements OvernightStayDataPersisterInterface
 {
-    public function __construct(
-        private EntityManagerInterface $entityManager,
-    ) 
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(): OvernightStay
     {
         return new OvernightStay();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function save(OvernightStay $overnightStay): void
     {
         $this->entityManager->persist($overnightStay);
         $this->entityManager->flush();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function remove(OvernightStay $overnightStay): void
     {
         $this->entityManager->remove($overnightStay);
