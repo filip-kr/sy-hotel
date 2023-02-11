@@ -19,10 +19,12 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-### custom ###
+###> custom ###
 .env
 .env.test
-composer.lock
+tests
+.idea/
 phpunit.xml.dist
-symfony.lock
-### custom ###
+docker-compose.yml
+docker-compose.override.yml
+###< custom ###
