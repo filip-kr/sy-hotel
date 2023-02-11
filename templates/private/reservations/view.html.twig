@@ -2,80 +2,84 @@
 {% set title = 'Rezervacije' %}
 
 {% block content %}
-  <div class="m-2">
-    <div class="container-fluid">
-      <div class="d-grid gap-2 mb-4">
-        <a href="{{ path('reservations-create') }}" class="btn btn-primary">Nova rezervacija</a>
-      </div>
-      <table class="table table-hover table-bordered" id="reservationsTable">
-        <thead>
-          <tr>
-            <th scope="col">Ime</th>
-            <th scope="col">Prezime</th>
-            <th scope="col">E-mail</th>
-            <th scope="col">OIB / Broj putovnice</th>
-            <th scope="col">Datum prijave</th>
-            <th scope="col">Datum odjave</th>
-            <th scope="col">Akcija</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for reservation in reservations %}
-            <tr>
-              <td>{{ reservation.guest.firstName }}</td>
-              <td>{{ reservation.guest.lastName }}</td>
-              <td>{{ reservation.guest.email }}</td>
-              {% if reservation.guest.oib is defined and reservation.guest.oib is not null %}
-                <td>{{ reservation.guest.oib }}</td>
-              {% else %}
-                <td>{{ reservation.guest.passportNumber }}</td>
-              {% endif %}
-              <td>{{ reservation.signInDate|date('d.m.Y. H:m') }}</td>
-              <td>{{ reservation.signOutDate|date('d.m.Y. H:m') }}</td>
-              <td>
-                <div class="btn-group dropstart d-flex justify-content-center">
-                  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="{{ path('reservations-update', { id: reservation.id }) }}">Uredi</a>
-                    </li>
-                    {% if reservation.overnightStay is null or reservation.overnightStay.isActive == false %}
-                      <li>
-                        <a class="dropdown-item delete-item" href="{{ path('reservations-delete', { id: reservation.id }) }}">Obriši</a>
-                      </li>
-                    {% endif %}
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="m-2">
+        <div class="container-fluid">
+            <div class="d-grid gap-2 mb-4">
+                <a href="{{ path('reservations-create') }}" class="btn btn-primary">Nova rezervacija</a>
+            </div>
+            <table class="table table-hover table-bordered" id="reservationsTable">
+                <thead>
+                <tr>
+                    <th scope="col">Ime</th>
+                    <th scope="col">Prezime</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">OIB / Broj putovnice</th>
+                    <th scope="col">Datum prijave</th>
+                    <th scope="col">Datum odjave</th>
+                    <th scope="col">Akcija</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td>{{ reservation.guest.firstName }}</td>
+                        <td>{{ reservation.guest.lastName }}</td>
+                        <td>{{ reservation.guest.email }}</td>
+                        {% if reservation.guest.oib is defined and reservation.guest.oib is not null %}
+                            <td>{{ reservation.guest.oib }}</td>
+                        {% else %}
+                            <td>{{ reservation.guest.passportNumber }}</td>
+                        {% endif %}
+                        <td>{{ reservation.signInDate|date('d.m.Y. H:m') }}</td>
+                        <td>{{ reservation.signOutDate|date('d.m.Y. H:m') }}</td>
+                        <td>
+                            <div class="btn-group dropstart d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                        data-bs-toggle="dropdown">. . .
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{{ path('reservations-update', { id: reservation.id }) }}">Uredi</a>
+                                    </li>
+                                    {% if reservation.overnightStay is null or reservation.overnightStay.isActive == false %}
+                                        <li>
+                                            <a class="dropdown-item delete-item"
+                                               href="{{ path('reservations-delete', { id: reservation.id }) }}">Obriši</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block scripts %}
-  {{ parent() }}
-  {% include 'partials/scripts/datatables.html.twig' %}
-  {% include 'confirmdelete.html.twig' %}
+    {{ parent() }}
+    {% include 'partials/scripts/datatables.html.twig' %}
+    {% include 'confirmdelete.html.twig' %}
 
-  <script>
-    // Delete modal
-    $('.delete-item').click(function () {
-      $('#confirmedDelete').attr('href', $(this).attr('href'))
-      $('#messageModal').html($(this).parent().prev().prev().html())
-      $('#modalDelete').modal('show')
-      return false
-    })
-    
-    // DataTables
-    $(document).ready(function () {
-      $('#reservationsTable').DataTable({
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
-        }
-      })
-    })
-  </script>
+    <script>
+        // Delete modal
+        $('.delete-item').click(function () {
+            $('#confirmedDelete').attr('href', $(this).attr('href'))
+            $('#messageModal').html($(this).parent().prev().prev().html())
+            $('#modalDelete').modal('show')
+            return false
+        })
+
+        // DataTables
+        $(document).ready(function () {
+            $('#reservationsTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
+                }
+            })
+        })
+    </script>
 {% endblock %}

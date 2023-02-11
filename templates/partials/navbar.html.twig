@@ -1,42 +1,45 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand">Symfony Hotel</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('homepage') }}">Početna</a>
-        </li>
-        {% if app.user is null %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('login') }}">Prijava</a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('dashboard') }}">Nadzorna ploča</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">Programi</a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a class="dropdown-item" href="{{ path('rooms') }}">Sobe</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{{ path('guests') }}">Gosti</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{{ path('reservations') }}">Rezervacije</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{{ path('overnightstays') }}">Noćenja</a>
-              </li>
+    <div class="container">
+        <a class="navbar-brand">Symfony Hotel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('homepage') }}">Početna</a>
+                </li>
+                {% if app.user is null %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('login') }}">Prijava</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('dashboard') }}">Nadzorna ploča</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                           data-bs-toggle="dropdown">Programi</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{{ path('rooms') }}">Sobe</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('guests') }}">Gosti</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('reservations') }}">Rezervacije</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('overnightstays') }}">Noćenja</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="{{ path('logout') }}">Odjava {{ app.user.firstName }} {{ app.user.lastName }}</a>
+                    </li>
+                {% endif %}
             </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="{{ path('logout') }}">Odjava {{ app.user.firstName }} {{ app.user.lastName }}</a>
-          </li>
-        {% endif %}
-      </ul>
+        </div>
     </div>
-  </div>
 </nav>

@@ -2,82 +2,86 @@
 {% set title = 'Sobe' %}
 
 {% block content %}
-  <div class="m-2">
-    <div class="container-fluid">
-      <div class="d-grid gap-2 mb-4">
-        <a href="{{ path('rooms-create') }}" class="btn btn-primary">Nova soba</a>
-      </div>
-      <table class="table table-hover table-bordered" id="roomsTable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Broj kreveta</th>
-            <th scope="col">Opis</th>
-            <th scope="col">Cijena noćenja</th>
-            <th scope="col">Akcija</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for room in rooms %}
-            <tr>
-              <td>{{ room.number }}</td>
-              <td>{{ room.numberOfBeds }}</td>
-              <td>{{ room.description }}</td>
-              <td>{{ room.price }}</td>
-              <td>
-                <div class="btn-group dropstart d-flex justify-content-center">
-                  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="{{ path('rooms-update', { id: room.id }) }}">Uredi</a>
-                    </li>
-                    {% if room.overnightStays is empty %}
-                      <li>
-                        <a class="dropdown-item delete-item" href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
-                      </li>
-                    {% else %}
-                      {% for os in room.overnightStays %}
-                        {% if os.isActive == true %}
+    <div class="m-2">
+        <div class="container-fluid">
+            <div class="d-grid gap-2 mb-4">
+                <a href="{{ path('rooms-create') }}" class="btn btn-primary">Nova soba</a>
+            </div>
+            <table class="table table-hover table-bordered" id="roomsTable">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Broj kreveta</th>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Cijena noćenja</th>
+                    <th scope="col">Akcija</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for room in rooms %}
+                    <tr>
+                        <td>{{ room.number }}</td>
+                        <td>{{ room.numberOfBeds }}</td>
+                        <td>{{ room.description }}</td>
+                        <td>{{ room.price }}</td>
+                        <td>
+                            <div class="btn-group dropstart d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                        data-bs-toggle="dropdown">. . .
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ path('rooms-update', { id: room.id }) }}">Uredi</a>
+                                    </li>
+                                    {% if room.overnightStays is empty %}
+                                        <li>
+                                            <a class="dropdown-item delete-item"
+                                               href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
+                                        </li>
+                                    {% else %}
+                                        {% for os in room.overnightStays %}
+                                            {% if os.isActive == true %}
 
-                        {% else %}
-                          <li>
-                            <a class="dropdown-item delete-item" href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
-                          </li>
-                        {% endif %}
-                      {% endfor %}
-                    {% endif %}
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+                                            {% else %}
+                                                <li>
+                                                    <a class="dropdown-item delete-item"
+                                                       href="{{ path('rooms-delete', { id: room.id }) }}">Obriši</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block scripts %}
-  {{ parent() }}
-  {% include 'partials/scripts/datatables.html.twig' %}
-  {% include 'confirmdelete.html.twig' %}
+    {{ parent() }}
+    {% include 'partials/scripts/datatables.html.twig' %}
+    {% include 'confirmdelete.html.twig' %}
 
-  <script>
-    // Delete modal
-    $('.delete-item').click(function () {
-      $('#confirmedDelete').attr('href', $(this).attr('href'))
-      $('#messageModal').html($(this).parent().prev().prev().html())
-      $('#modalDelete').modal('show')
-      return false
-    })
-    
-    // DataTables
-    $(document).ready(function () {
-      $('#roomsTable').DataTable({
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
-        }
-      })
-    })
-  </script>
+    <script>
+        // Delete modal
+        $('.delete-item').click(function () {
+            $('#confirmedDelete').attr('href', $(this).attr('href'))
+            $('#messageModal').html($(this).parent().prev().prev().html())
+            $('#modalDelete').modal('show')
+            return false
+        })
+
+        // DataTables
+        $(document).ready(function () {
+            $('#roomsTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
+                }
+            })
+        })
+    </script>
 {% endblock %}

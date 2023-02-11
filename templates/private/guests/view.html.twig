@@ -2,80 +2,83 @@
 {% set title = 'Gosti' %}
 
 {% block content %}
-  <div class="m-2">
-    <div class="container-fluid">
-      <div class="d-grid gap-2 mb-4">
-        <a href="{{ path('guests-create') }}" class="btn btn-primary">Novi gost</a>
-      </div>
-      <table class="table table-hover table-bordered" id="guestsTable">
-        <thead>
-          <tr>
-            <th scope="col">Ime</th>
-            <th scope="col">Prezime</th>
-            <th scope="col">E-mail</th>
-            <th scope="col">Datum rođenja</th>
-            <th scope="col">Država</th>
-            <th scope="col">OIB / Broj putovnice</th>
-            <th scope="col">Akcija</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for guest in guests %}
-            <tr>
-              <td>{{ guest.firstName }}</td>
-              <td>{{ guest.lastName }}</td>
-              <td>{{ guest.email }}</td>
-              <td>{{ guest.dob|date('d.m.Y.') }}</td>
-              <td>{{ guest.country }}</td>
-              {% if guest.oib is defined and guest.oib is not null %}
-                <td>{{ guest.oib }}</td>
-              {% else %}
-                <td>{{ guest.passportNumber }}</td>
-              {% endif %}
-              <td>
-                <div class="btn-group dropstart d-flex justify-content-center">
-                  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="{{ path('guests-update', { id: guest.id }) }}">Uredi</a>
-                    </li>
-                    {% if guest.reservations is empty %}
-                      <li>
-                        <a class="dropdown-item delete-item" href="{{ path('guests-delete', { id: guest.id }) }}">Obriši</a>
-                      </li>
-                    {% endif %}
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="m-2">
+        <div class="container-fluid">
+            <div class="d-grid gap-2 mb-4">
+                <a href="{{ path('guests-create') }}" class="btn btn-primary">Novi gost</a>
+            </div>
+            <table class="table table-hover table-bordered" id="guestsTable">
+                <thead>
+                <tr>
+                    <th scope="col">Ime</th>
+                    <th scope="col">Prezime</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Datum rođenja</th>
+                    <th scope="col">Država</th>
+                    <th scope="col">OIB / Broj putovnice</th>
+                    <th scope="col">Akcija</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for guest in guests %}
+                    <tr>
+                        <td>{{ guest.firstName }}</td>
+                        <td>{{ guest.lastName }}</td>
+                        <td>{{ guest.email }}</td>
+                        <td>{{ guest.dob|date('d.m.Y.') }}</td>
+                        <td>{{ guest.country }}</td>
+                        {% if guest.oib is defined and guest.oib is not null %}
+                            <td>{{ guest.oib }}</td>
+                        {% else %}
+                            <td>{{ guest.passportNumber }}</td>
+                        {% endif %}
+                        <td>
+                            <div class="btn-group dropstart d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                        data-bs-toggle="dropdown">. . .
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ path('guests-update', { id: guest.id }) }}">Uredi</a>
+                                    </li>
+                                    {% if guest.reservations is empty %}
+                                        <li>
+                                            <a class="dropdown-item delete-item"
+                                               href="{{ path('guests-delete', { id: guest.id }) }}">Obriši</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block scripts %}
-  {{ parent() }}
-  {% include 'confirmdelete.html.twig' %}
-  {% include 'partials/scripts/datatables.html.twig' %}
+    {{ parent() }}
+    {% include 'confirmdelete.html.twig' %}
+    {% include 'partials/scripts/datatables.html.twig' %}
 
-  <script>
-    // Delete modal
-    $('.delete-item').click(function () {
-      $('#confirmedDelete').attr('href', $(this).attr('href'))
-      $('#messageModal').html($(this).parent().prev().prev().html())
-      $('#modalDelete').modal('show')
-      return false
-    })
-    
-    // DataTables
-    $(document).ready(function () {
-      $('#guestsTable').DataTable({
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
-        }
-      })
-    })
-  </script>
+    <script>
+        // Delete modal
+        $('.delete-item').click(function () {
+            $('#confirmedDelete').attr('href', $(this).attr('href'))
+            $('#messageModal').html($(this).parent().prev().prev().html())
+            $('#modalDelete').modal('show')
+            return false
+        })
+
+        // DataTables
+        $(document).ready(function () {
+            $('#guestsTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
+                }
+            })
+        })
+    </script>
 {% endblock %}

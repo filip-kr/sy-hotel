@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="hr">
-  <head>
+<head>
     {% block head %}
-      {{ include('partials/head.html.twig') }}
+        {{ include('partials/head.html.twig') }}
     {% endblock %}
-  </head>
+</head>
 
-  <body>
-    <header>
-      {% block header %}
+<body>
+<header>
+    {% block header %}
         {{ include('partials/navbar.html.twig') }}
-      {% endblock %}
-    </header>
-
-    <main>
-      {% block content %}
-
-      {% endblock %}
-    </main>
-
-    <footer>
-      {% block footer %}
-        {{ include('partials/footer.html.twig') }}
-      {% endblock %}
-    </footer>
-
-    {% block scripts %}
-      {{ include('partials/scripts/base.html.twig') }}
     {% endblock %}
-  </body>
+</header>
+
+<main>
+    {% block content %}
+
+    {% endblock %}
+</main>
+
+<footer>
+    {% block footer %}
+        {{ include('partials/footer.html.twig') }}
+    {% endblock %}
+</footer>
+
+{% block scripts %}
+    {{ include('partials/scripts/base.html.twig') }}
+{% endblock %}
+</body>
 </html>

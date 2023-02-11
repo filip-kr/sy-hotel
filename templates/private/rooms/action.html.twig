@@ -2,27 +2,27 @@
 {% set title = 'Soba' %}
 
 {% block content %}
-  <div class="m-2">
-    <div class="container w-50 p-3">
-      {{ form_start(form) }}
-      <div class="mb-3">
-        {% include 'form/input.html.twig' with { attribute: form.number } %}
-      </div>
-      <div class="mb-3">
-        {% include 'form/input.html.twig' with { attribute: form.numberOfBeds } %}
-      </div>
-      <div class="mb-3">
-        {% include 'form/input.html.twig' with { attribute: form.description } %}
-      </div>
-      <div class="mb-3">
-        {% include 'form/input.html.twig' with { attribute: form.price } %}
-      </div>
-      <div class="mb-5">
-        <p class="lead mb-5">Podaci označeni sa * su obavezni</p>
-        <input type="submit" class="btn btn-success me-2" value="Potvrdi" />
-        <a href="{{ path('rooms') }}" class="btn btn-danger">Odustani</a>
-      </div>
-      {{ form_end(form) }}
+    <div class="m-2">
+        <div class="container w-50 p-3">
+            {{ form_start(form) }}
+            <div class="mb-3">
+                {% include 'form/input.html.twig' with { attribute: form.number } %}
+            </div>
+            <div class="mb-3">
+                {% include 'form/input.html.twig' with { attribute: form.numberOfBeds } %}
+            </div>
+            <div class="mb-3">
+                {% include 'form/input.html.twig' with { attribute: form.description } %}
+            </div>
+            <div class="mb-3">
+                {% include 'form/input.html.twig' with { attribute: form.price } %}
+            </div>
+            <div class="mb-5">
+                <p class="lead mb-5">Podaci označeni sa * su obavezni</p>
+                <input type="submit" class="btn btn-success me-2" value="Potvrdi"/>
+                <a href="{{ path('rooms') }}" class="btn btn-danger">Odustani</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
-  </div>
 {% endblock %}

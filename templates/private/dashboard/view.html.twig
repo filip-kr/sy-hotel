@@ -2,156 +2,162 @@
 {% set title = 'Nadzorna ploča' %}
 
 {% block content %}
-  <div class="container">
-    <div class="text-center mt-5 mb-5">
-      <h1>Nadzorna ploča</h1>
-    </div>
-    <p class="lead text-center mb-2">Statistika</p>
-    <div class="row justify-content-center">
-      <!-- Guest count -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Gosti</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['guestCount'] }}</div>
-              </div>
-              <div class="col-auto">
-                <i class="bi-person-fill fs-1 mr-2"></i>
-              </div>
+    <div class="container">
+        <div class="text-center mt-5 mb-5">
+            <h1>Nadzorna ploča</h1>
+        </div>
+        <p class="lead text-center mb-2">Statistika</p>
+        <div class="row justify-content-center">
+            <!-- Guest count -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Gosti</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['guestCount'] }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi-person-fill fs-1 mr-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Reservation count -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Rezervacije</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['reservationCount'] }}</div>
-              </div>
-              <div class="col-auto">
-                <i class="bi-person-plus-fill fs-1 mr-2"></i>
-              </div>
+            <!-- Reservation count -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Rezervacije</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['reservationCount'] }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi-person-plus-fill fs-1 mr-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Active overnight stay count -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Aktivna noćenja</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['activeStayCount'] }}</div>
-              </div>
-              <div class="col-auto">
-                <i class="bi-person-check-fill fs-1 mr-2"></i>
-              </div>
+            <!-- Active overnight stay count -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Aktivna noćenja
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['activeStayCount'] }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi-person-check-fill fs-1 mr-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Available room count -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Soba dostupno</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['availableRoomCount'] }}</div>
-              </div>
-              <div class="col-auto">
-                <i class="bi-person-bounding-box fs-1 mr-2"></i>
-              </div>
+            <!-- Available room count -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-s font-weight-bold text-primary text-uppercase mb-1">Soba dostupno
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dataCount['availableRoomCount'] }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi-person-bounding-box fs-1 mr-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Chart -->
-    <div class="row justify-content-center mb-5">
-      <div class="card-body">
-        <div class="chart-bar pt-4 pb-2">
-          <canvas id="chart"></canvas>
+        <!-- Chart -->
+        <div class="row justify-content-center mb-5">
+            <div class="card-body">
+                <div class="chart-bar pt-4 pb-2">
+                    <canvas id="chart"></canvas>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Users -->
-    <p class="lead text-center mt-5 mb-2">Operateri</p>
-    <div class="mb-5">
-      {% if 'ROLE_ADMIN' in app.user.roles %}
-        <div class="d-grid gap-2 mb-2">
-          <a href="{{ path('register') }}" class="btn btn-primary">Novi operater</a>
-        </div>
-      {% endif %}
-      <table class="table table-hover table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">E-mail</th>
-            <th scope="col">Ime</th>
-            <th scope="col">Prezime</th>
-            <th scope="col">Uloga</th>
+        <!-- Users -->
+        <p class="lead text-center mt-5 mb-2">Operateri</p>
+        <div class="mb-5">
             {% if 'ROLE_ADMIN' in app.user.roles %}
-              <th scope="col">Akcija</th>
+                <div class="d-grid gap-2 mb-2">
+                    <a href="{{ path('register') }}" class="btn btn-primary">Novi operater</a>
+                </div>
             {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for user in users %}
-            <tr>
-              <td>{{ user.email }}</td>
-              <td>{{ user.firstName }}</td>
-              <td>{{ user.lastName }}</td>
-              {% if 'ROLE_ADMIN' in user.roles %}
-                <td>Administrator</td>
-              {% else %}
-                <td>Operater</td>
-              {% endif %}
-              {% if 'ROLE_ADMIN' in app.user.roles %}
-                <td>
-                  <div class="btn-group dropstart d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="{{ path('dashboard-userupdate', { id: user.id }) }}">Uredi</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item delete-item" href="{{ path('dashboard-userdelete', { id: user.id }) }}">Obriši</a>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              {% endif %}
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Ime</th>
+                    <th scope="col">Prezime</th>
+                    <th scope="col">Uloga</th>
+                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                        <th scope="col">Akcija</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.lastName }}</td>
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            <td>Administrator</td>
+                        {% else %}
+                            <td>Operater</td>
+                        {% endif %}
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            <td>
+                                <div class="btn-group dropstart d-flex justify-content-center">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                                            data-bs-toggle="dropdown">. . .
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ path('dashboard-userupdate', { id: user.id }) }}">Uredi</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item delete-item"
+                                               href="{{ path('dashboard-userdelete', { id: user.id }) }}">Obriši</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block scripts %}
-  {{ parent() }}
-  {% include 'partials/scripts/chart.html.twig' %}
-  {% include 'confirmdelete.html.twig' %}
+    {{ parent() }}
+    {% include 'partials/scripts/chart.html.twig' %}
+    {% include 'confirmdelete.html.twig' %}
 
-  <script>
-    // Delete modal
-    $('.delete-item').click(function () {
-      $('#confirmedDelete').attr('href', $(this).attr('href'))
-      $('#messageModal').html($(this).parent().prev().prev().html())
-      $('#modalDelete').modal('show')
-      return false
-    })
-  </script>
+    <script>
+        // Delete modal
+        $('.delete-item').click(function () {
+            $('#confirmedDelete').attr('href', $(this).attr('href'))
+            $('#messageModal').html($(this).parent().prev().prev().html())
+            $('#modalDelete').modal('show')
+            return false
+        })
+    </script>
 {% endblock %}

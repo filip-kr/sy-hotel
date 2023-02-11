@@ -2,100 +2,107 @@
 {% set title = 'Noćenja' %}
 
 {% block content %}
-  <div class="m-2">
-    <div class="container-fluid">
-      <div class="d-grid gap-2 mb-4">
-        <a href="{{ path('overnightstays-create') }}" class="btn btn-primary">Novo noćenje</a>
-      </div>
-      <table class="table table-hover table-bordered" id="overnightStaysTable">
-        <thead>
-          <tr>
-            <th scope="col">Ime</th>
-            <th scope="col">Prezime</th>
-            <th scope="col">OIB / Broj putovnice</th>
-            <th scope="col">Broj sobe</th>
-            <th scope="col">Datum odjave</th>
-            <th scope="col">Cijena ukupno</th>
-            <th scope="col">Aktivno</th>
-            <th scope="col">Akcija</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for os in overnightStays %}
-            <tr>
-              <td>{{ os.reservation.guest.firstName }}</td>
-              <td>{{ os.reservation.guest.lastName }}</td>
-              {% if os.reservation.guest.oib is defined and os.reservation.guest.oib is not null %}
-                <td>{{ os.reservation.guest.oib }}</td>
-              {% else %}
-                <td>{{ os.reservation.guest.passportNumber }}</td>
-              {% endif %}
-              <td>{{ os.room.number }}</td>
-              <td>{{ os.reservation.signOutDate|date('d.m.Y. H:m') }}</td>
-              <td>{{ os.totalPrice }}</td>
-              {% if os.isActive %}
-                <td>
-                  <div class="d-flex justify-content-center mt-2">
-                    <img class="img-fluid" src="/img/checked.ico" alt="Da" />
-                  </div>
-                </td>
-              {% else %}
-                <td>
-                  <div class="d-flex justify-content-center mt-2">
-                    <img class="img-fluid" src="/img/cancel.ico" alt="Ne" />
-                  </div>
-                </td>
-              {% endif %}
-              <td>
-                <div class="btn-group dropstart d-flex justify-content-center">
-                  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">. . .</button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="{{ path('overnightstays-changestatus', { id: os.id }) }}">Promijeni status</a>
-                    </li>
-                    {% if os.isActive == false %}
-                      <li>
-                        <a class="dropdown-item delete-item" href="{{ path('overnightstays-delete', { id: os.id }) }}">Obriši</a>
-                      </li>
-                    {% endif %}
-                    <li>
-                      <hr class="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="{{ path('overnightstays-print', { id: os.id }) }}" target="_blank" rel="noopener noreferrer">Ispiši račun</a>
-                    </li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="m-2">
+        <div class="container-fluid">
+            <div class="d-grid gap-2 mb-4">
+                <a href="{{ path('overnightstays-create') }}" class="btn btn-primary">Novo noćenje</a>
+            </div>
+            <table class="table table-hover table-bordered" id="overnightStaysTable">
+                <thead>
+                <tr>
+                    <th scope="col">Ime</th>
+                    <th scope="col">Prezime</th>
+                    <th scope="col">OIB / Broj putovnice</th>
+                    <th scope="col">Broj sobe</th>
+                    <th scope="col">Datum odjave</th>
+                    <th scope="col">Cijena ukupno</th>
+                    <th scope="col">Aktivno</th>
+                    <th scope="col">Akcija</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for os in overnightStays %}
+                    <tr>
+                        <td>{{ os.reservation.guest.firstName }}</td>
+                        <td>{{ os.reservation.guest.lastName }}</td>
+                        {% if os.reservation.guest.oib is defined and os.reservation.guest.oib is not null %}
+                            <td>{{ os.reservation.guest.oib }}</td>
+                        {% else %}
+                            <td>{{ os.reservation.guest.passportNumber }}</td>
+                        {% endif %}
+                        <td>{{ os.room.number }}</td>
+                        <td>{{ os.reservation.signOutDate|date('d.m.Y. H:m') }}</td>
+                        <td>{{ os.totalPrice }}</td>
+                        {% if os.isActive %}
+                            <td>
+                                <div class="d-flex justify-content-center mt-2">
+                                    <img class="img-fluid" src="/img/checked.ico" alt="Da"/>
+                                </div>
+                            </td>
+                        {% else %}
+                            <td>
+                                <div class="d-flex justify-content-center mt-2">
+                                    <img class="img-fluid" src="/img/cancel.ico" alt="Ne"/>
+                                </div>
+                            </td>
+                        {% endif %}
+                        <td>
+                            <div class="btn-group dropstart d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                        data-bs-toggle="dropdown">. . .
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{{ path('overnightstays-changestatus', { id: os.id }) }}">Promijeni
+                                            status</a>
+                                    </li>
+                                    {% if os.isActive == false %}
+                                        <li>
+                                            <a class="dropdown-item delete-item"
+                                               href="{{ path('overnightstays-delete', { id: os.id }) }}">Obriši</a>
+                                        </li>
+                                    {% endif %}
+                                    <li>
+                                        <hr class="dropdown-divider"/>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{{ path('overnightstays-print', { id: os.id }) }}" target="_blank"
+                                           rel="noopener noreferrer">Ispiši račun</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block scripts %}
-  {{ parent() }}
-  {% include 'partials/scripts/datatables.html.twig' %}
-  {% include 'confirmdelete.html.twig' %}
+    {{ parent() }}
+    {% include 'partials/scripts/datatables.html.twig' %}
+    {% include 'confirmdelete.html.twig' %}
 
-  <script>
-    // Delete modal
-    $('.delete-item').click(function () {
-      $('#confirmedDelete').attr('href', $(this).attr('href'))
-      $('#messageModal').html($(this).parent().prev().prev().html())
-      $('#modalDelete').modal('show')
-      return false
-    })
-    
-    // DataTables
-    $(document).ready(function () {
-      $('#overnightStaysTable').DataTable({
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
-        }
-      })
-    })
-  </script>
+    <script>
+        // Delete modal
+        $('.delete-item').click(function () {
+            $('#confirmedDelete').attr('href', $(this).attr('href'))
+            $('#messageModal').html($(this).parent().prev().prev().html())
+            $('#modalDelete').modal('show')
+            return false
+        })
+
+        // DataTables
+        $(document).ready(function () {
+            $('#overnightStaysTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/hr.json'
+                }
+            })
+        })
+    </script>
 {% endblock %}
