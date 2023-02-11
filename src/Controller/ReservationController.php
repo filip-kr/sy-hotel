@@ -9,7 +9,6 @@ use App\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ReservationForm;
@@ -74,7 +73,7 @@ class ReservationController extends AbstractController
      * @return Response
      */
     #[Route('/reservations/update/{id}', name: 'reservations-update')]
-    public function update(Reservation $reservation, Request $request,): Response
+    public function update(Reservation $reservation, Request $request): Response
     {
         $form = $this->createForm(
             ReservationForm::class,
