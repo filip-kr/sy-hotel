@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\OvernightStayRepository;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\OvernightStayForm;
+use App\Form\OvernightStayFormType;
 use App\Service\ReceiptService;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -54,7 +54,7 @@ class OvernightStayController extends AbstractController
         $overnightStay = $this->dataPersister->create();
 
         $form = $this->createForm(
-            OvernightStayForm::class,
+            OvernightStayFormType::class,
             $overnightStay
         );
         $form->handleRequest($request);

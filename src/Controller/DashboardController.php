@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Contract\DataPersister\UserDataPersisterInterface;
 use App\Entity\User;
-use App\Form\RegistrationForm;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Service\StatisticsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -64,7 +64,7 @@ class DashboardController extends AbstractController
     public function update(User $user, Request $request): Response
     {
         $form = $this->createForm(
-            RegistrationForm::class,
+            RegistrationFormType::class,
             $user
         );
         $form->handleRequest($request);

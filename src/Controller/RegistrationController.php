@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Contract\DataPersister\UserDataPersisterInterface;
-use App\Form\RegistrationForm;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Service\EmailVerifierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +42,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request): Response
     {
         $user = $this->dataPersister->create();
-        $form = $this->createForm(RegistrationForm::class, $user);
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

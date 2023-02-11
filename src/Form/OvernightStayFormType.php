@@ -16,8 +16,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Repository\ReservationRepository;
 use App\Repository\RoomRepository;
 
-class OvernightStayForm extends AbstractType
+class OvernightStayFormType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -73,10 +78,12 @@ class OvernightStayForm extends AbstractType
             ]);
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => OvernightStay::class
-        ]);
+        $resolver->setDefault('data_class', OvernightStay::class);
     }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\ReservationForm;
+use App\Form\ReservationFormType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
@@ -51,7 +51,7 @@ class ReservationController extends AbstractController
         $reservation = $this->dataPersister->create();
 
         $form = $this->createForm(
-            ReservationForm::class,
+            ReservationFormType::class,
             $reservation
         );
         $form->handleRequest($request);
@@ -76,7 +76,7 @@ class ReservationController extends AbstractController
     public function update(Reservation $reservation, Request $request): Response
     {
         $form = $this->createForm(
-            ReservationForm::class,
+            ReservationFormType::class,
             $reservation
         );
         $form->handleRequest($request);

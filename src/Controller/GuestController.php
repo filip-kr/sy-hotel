@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\GuestRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Guest;
-use App\Form\GuestForm;
+use App\Form\GuestFormType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
@@ -51,7 +51,7 @@ class GuestController extends AbstractController
         $guest = $this->dataPersister->create();
 
         $form = $this->createForm(
-            GuestForm::class,
+            GuestFormType::class,
             $guest
         );
         $form->handleRequest($request);
@@ -76,7 +76,7 @@ class GuestController extends AbstractController
     public function update(Guest $guest, Request $request): Response
     {
         $form = $this->createForm(
-            GuestForm::class,
+            GuestFormType::class,
             $guest
         );
         $form->handleRequest($request);

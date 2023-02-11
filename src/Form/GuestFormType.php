@@ -13,8 +13,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GuestForm extends AbstractType
+class GuestFormType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -25,25 +30,25 @@ class GuestForm extends AbstractType
                 ]
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Prezime*',
+                'label' => 'Prezime *',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' => 'E-mail*',
+                'label' => 'E-mail *',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('dob', BirthdayType::class, [
-                'label' => 'Datum rođenja*',
+                'label' => 'Datum rođenja *',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('country', CountryType::class, [
-                'label' => 'Država*',
+                'label' => 'Država *',
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -64,10 +69,12 @@ class GuestForm extends AbstractType
             ]);
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Guest::class,
-        ]);
+        $resolver->setDefault('data_class', Guest::class);
     }
 }

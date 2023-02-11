@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\RoomRepository;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\RoomForm;
+use App\Form\RoomFormType;
 use App\Entity\Room;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -51,7 +51,7 @@ class RoomController extends AbstractController
         $room = $this->dataPersister->create();
 
         $form = $this->createForm(
-            RoomForm::class,
+            RoomFormType::class,
             $room
         );
         $form->handleRequest($request);
@@ -76,7 +76,7 @@ class RoomController extends AbstractController
     public function update(Room $room, Request $request): Response
     {
         $form = $this->createForm(
-            RoomForm::class,
+            RoomFormType::class,
             $room
         );
         $form->handleRequest($request);
