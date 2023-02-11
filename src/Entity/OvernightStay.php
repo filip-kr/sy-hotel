@@ -25,7 +25,7 @@ class OvernightStay
     #[ORM\Column(
         name: 'total_price',
         type: Types::DECIMAL,
-        precision: 5,
+        precision: 10,
         scale: 2,
         nullable: false
     )]
