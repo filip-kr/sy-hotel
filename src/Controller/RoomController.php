@@ -14,8 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\RoomForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Entity\Room;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Security("is_granted('ROLE_USER')")]
+#[IsGranted('ROLE_USER')]
 class RoomController extends AbstractController
 {
     /**
@@ -68,6 +69,11 @@ class RoomController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Room $room
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/rooms/update/{id}', name: 'rooms-update')]
     public function update(Room $room, Request $request): Response
     {
@@ -88,6 +94,10 @@ class RoomController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Room $room
+     * @return Response
+     */
     #[Route('/rooms/delete/{id}', name: 'rooms-delete')]
     public function delete(Room $room): Response
     {

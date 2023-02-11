@@ -13,10 +13,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ReservationForm;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Security("is_granted('ROLE_USER')")]
+#[IsGranted('ROLE_USER')]
 class ReservationController extends AbstractController
 {
+    /**
+     * @param ReservationRepository $repository
+     * @param ReservationDataPersisterInterface $dataPersister
+     */
     public function __construct(
         private ReservationRepository             $repository,
         private ReservationDataPersisterInterface $dataPersister
@@ -63,6 +68,11 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Reservation $reservation
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/reservations/update/{id}', name: 'reservations-update')]
     public function update(Reservation $reservation, Request $request,): Response
     {

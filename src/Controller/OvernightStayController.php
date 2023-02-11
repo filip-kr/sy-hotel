@@ -9,15 +9,20 @@ use App\Entity\OvernightStay;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Repository\OvernightStayRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\OvernightStayForm;
 use App\Service\ReceiptService;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Security("is_granted('ROLE_USER')")]
+#[IsGranted('ROLE_USER')]
 class OvernightStayController extends AbstractController
 {
+    /**
+     * @param OvernightStayRepository $repository
+     * @param OvernightStayDataPersisterInterface $dataPersister
+     * @param ReceiptService $receiptService
+     */
     public function __construct(
         private OvernightStayRepository             $repository,
         private OvernightStayDataPersisterInterface $dataPersister,
