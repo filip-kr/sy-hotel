@@ -46,16 +46,26 @@ class OvernightStay
     #[Assert\NotBlank]
     private ?Reservation $reservation = null;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Room|null
+     */
     public function getRoom(): ?Room
     {
         return $this->room;
     }
 
+    /**
+     * @param Room|null $room
+     * @return $this
+     */
     public function setRoom(?Room $room): self
     {
         $this->room = $room;
@@ -63,11 +73,18 @@ class OvernightStay
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTotalPrice(): ?string
     {
         return $this->totalPrice;
     }
 
+    /**
+     * @param string|null $totalPrice
+     * @return $this
+     */
     public function setTotalPrice(?string $totalPrice): self
     {
         $this->totalPrice = $totalPrice;
@@ -75,11 +92,18 @@ class OvernightStay
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function isActive(): ?bool
     {
         return $this->isActive;
     }
 
+    /**
+     * @param bool $isActive
+     * @return $this
+     */
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
@@ -87,19 +111,24 @@ class OvernightStay
         return $this;
     }
 
+    /**
+     * @return Reservation|null
+     */
     public function getReservation(): ?Reservation
     {
         return $this->reservation;
     }
 
+    /**
+     * @param Reservation|null $reservation
+     * @return $this
+     */
     public function setReservation(?Reservation $reservation): self
     {
-        // unset the owning side of the relation if necessary
         if ($reservation === null && $this->reservation !== null) {
             $this->reservation->setOvernightStay(null);
         }
 
-        // set the owning side of the relation if necessary
         if ($reservation !== null && $reservation->getOvernightStay() !== $this) {
             $reservation->setOvernightStay($this);
         }

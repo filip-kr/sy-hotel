@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\GuestRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -53,7 +54,7 @@ class Guest
         nullable: false
     )]
     #[Assert\NotBlank]
-    #[Assert\Email()]
+    #[Assert\Email]
     #[Assert\Length(
         min: 5,
         max: 30
@@ -66,7 +67,7 @@ class Guest
         nullable: false
     )]
     #[Assert\NotBlank]
-    private ?\DateTimeInterface $dob = null;
+    private ?DateTimeInterface $dob = null;
 
     #[ORM\Column(
         name: 'country',
@@ -80,8 +81,8 @@ class Guest
         name: 'oib',
         type: 'string',
         length: 11,
-        options: ['fixed' => true],
-        nullable: true
+        nullable: true,
+        options: ['fixed' => true]
     )]
     #[Assert\Expression(
         "this.getCountry() != 'HR' or this.getCountry() == 'HR' and this.getOib() != null ? true : false"
@@ -114,16 +115,26 @@ class Guest
         $this->reservations = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
+    /**
+     * @param string $firstName
+     * @return $this
+     */
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
@@ -131,11 +142,18 @@ class Guest
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
+    /**
+     * @param string $lastName
+     * @return $this
+     */
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
@@ -143,11 +161,18 @@ class Guest
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -155,23 +180,37 @@ class Guest
         return $this;
     }
 
-    public function getDob(): ?\DateTimeInterface
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getDob(): ?DateTimeInterface
     {
         return $this->dob;
     }
 
-    public function setDob(\DateTimeInterface $dob): self
+    /**
+     * @param DateTimeInterface $dob
+     * @return $this
+     */
+    public function setDob(DateTimeInterface $dob): self
     {
         $this->dob = $dob;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCountry(): ?string
     {
         return $this->country;
     }
 
+    /**
+     * @param string $country
+     * @return $this
+     */
     public function setCountry(string $country): self
     {
         $this->country = $country;
@@ -179,11 +218,18 @@ class Guest
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getOib(): ?string
     {
         return $this->oib;
     }
 
+    /**
+     * @param string|null $oib
+     * @return $this
+     */
     public function setOib(?string $oib): self
     {
         $this->oib = $oib;
@@ -191,11 +237,18 @@ class Guest
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPassportNumber(): ?string
     {
         return $this->passportNumber;
     }
 
+    /**
+     * @param string|null $passportNumber
+     * @return $this
+     */
     public function setPassportNumber(?string $passportNumber): self
     {
         $this->passportNumber = $passportNumber;
@@ -211,6 +264,10 @@ class Guest
         return $this->reservations;
     }
 
+    /**
+     * @param Reservation $reservation
+     * @return $this
+     */
     public function addReservation(Reservation $reservation): self
     {
         if (!$this->reservations->contains($reservation)) {
@@ -221,6 +278,10 @@ class Guest
         return $this;
     }
 
+    /**
+     * @param Reservation $reservation
+     * @return $this
+     */
     public function removeReservation(Reservation $reservation): self
     {
         if ($this->reservations->removeElement($reservation)) {

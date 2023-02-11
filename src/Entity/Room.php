@@ -24,8 +24,8 @@ class Room
     #[ORM\Column(
         name: 'number',
         type: 'integer',
-        nullable: false,
-        unique: true
+        unique: true,
+        nullable: false
     )]
     #[Assert\NotBlank]
     #[Assert\Length(
@@ -77,16 +77,26 @@ class Room
         $this->overnightStays = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return int|null
+     */
     public function getNumber(): ?int
     {
         return $this->number;
     }
 
+    /**
+     * @param int $number
+     * @return $this
+     */
     public function setNumber(int $number): self
     {
         $this->number = $number;
@@ -94,11 +104,18 @@ class Room
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getNumberOfBeds(): ?int
     {
         return $this->numberOfBeds;
     }
 
+    /**
+     * @param int $numberOfBeds
+     * @return $this
+     */
     public function setNumberOfBeds(int $numberOfBeds): self
     {
         $this->numberOfBeds = $numberOfBeds;
@@ -106,11 +123,18 @@ class Room
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string|null $description
+     * @return $this
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -118,11 +142,18 @@ class Room
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPrice(): ?string
     {
         return $this->price;
     }
 
+    /**
+     * @param string $price
+     * @return $this
+     */
     public function setPrice(string $price): self
     {
         $this->price = $price;
@@ -138,6 +169,10 @@ class Room
         return $this->overnightStays;
     }
 
+    /**
+     * @param OvernightStay $overnightStay
+     * @return $this
+     */
     public function addOvernightStay(OvernightStay $overnightStay): self
     {
         if (!$this->overnightStays->contains($overnightStay)) {
@@ -148,6 +183,10 @@ class Room
         return $this;
     }
 
+    /**
+     * @param OvernightStay $overnightStay
+     * @return $this
+     */
     public function removeOvernightStay(OvernightStay $overnightStay): self
     {
         if ($this->overnightStays->removeElement($overnightStay)) {
