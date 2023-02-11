@@ -4,45 +4,48 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Contract\DataPersister\UserDataPersisterInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\DataPersister\UserDataPersister;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class AppFixtures extends Fixture
 {
+    /**
+     * @param UserDataPersisterInterface $userDataPersister
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(
-        UserDataPersister $userDataPersister,
-        UserPasswordHasherInterface $passwordHasher,
-        EntityManagerInterface $entityManager
-    ) 
+        private UserDataPersisterInterface $userDataPersister,
+        private EntityManagerInterface     $entityManager
+    )
     {
-        $this->userDataPersister = $userDataPersister;
-        $this->passwordHasher = $passwordHasher;
-        $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         // Admin
         $user = $this->userDataPersister->create();
-        $user->setFirstName('Filip')
-            ->setLastName('Krnjaković')
-            ->setEmail('admin@syhotel.com')
-            ->setRoles(['ROLE_ADMIN'])
-            ->setPassword($this->userDataPersister->getHashPassword($user, 'admin256'))
-            ->setIsVerified(true);
+        $user->setFirstName('Filip');
+        $user->setLastName('Krnjaković');
+        $user->setEmail('admin@syhotel.com');
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setPassword($this->userDataPersister->getHashPassword($user, 'admin256'));
+        $user->setIsVerified(true);
         $this->userDataPersister->save($user);
         $manager->persist($user);
 
         // User
         $user = $this->userDataPersister->create();
-        $user->setFirstName('Tea')
-            ->setLastName('Vereš')
-            ->setEmail('user@syhotel.com')
-            ->setPassword($this->userDataPersister->getHashPassword($user, 'user256'))
-            ->setIsVerified(true);
+        $user->setFirstName('Tea');
+        $user->setLastName('Vereš');
+        $user->setEmail('user@syhotel.com');
+        $user->setPassword($this->userDataPersister->getHashPassword($user, 'user256'));
+        $user->setIsVerified(true);
         $this->userDataPersister->save($user);
         $manager->persist($user);
 
@@ -52,6 +55,10 @@ final class AppFixtures extends Fixture
         $this->loadExternalSql($this->entityManager);
     }
 
+    /**
+     * @param $entityManager
+     * @return void
+     */
     private function loadExternalSql($entityManager): void
     {
         $files = [
