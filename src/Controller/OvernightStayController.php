@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Contract\DataPersister\OvernightStayDataPersisterInterface;
+use App\Contract\Repository\OvernightStayRepositoryInterface;
 use App\Entity\OvernightStay;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\OvernightStayRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\OvernightStayFormType;
 use App\Service\ReceiptService;
@@ -22,12 +22,12 @@ use Twig\Error\SyntaxError;
 class OvernightStayController extends AbstractController
 {
     /**
-     * @param OvernightStayRepository $repository
+     * @param OvernightStayRepositoryInterface $repository
      * @param OvernightStayDataPersisterInterface $dataPersister
      * @param ReceiptService $receiptService
      */
     public function __construct(
-        private OvernightStayRepository             $repository,
+        private OvernightStayRepositoryInterface    $repository,
         private OvernightStayDataPersisterInterface $dataPersister,
         private ReceiptService                      $receiptService
     )

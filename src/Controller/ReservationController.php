@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Contract\DataPersister\ReservationDataPersisterInterface;
+use App\Contract\Repository\ReservationRepositoryInterface;
 use App\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ReservationFormType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -18,11 +18,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ReservationController extends AbstractController
 {
     /**
-     * @param ReservationRepository $repository
+     * @param ReservationRepositoryInterface $repository
      * @param ReservationDataPersisterInterface $dataPersister
      */
     public function __construct(
-        private ReservationRepository             $repository,
+        private ReservationRepositoryInterface    $repository,
         private ReservationDataPersisterInterface $dataPersister
     )
     {

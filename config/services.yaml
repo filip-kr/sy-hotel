@@ -24,9 +24,6 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # Data Persisters
-    App\Contract\DataPersister\UserDataPersisterInterface:
-        class: App\DataPersister\UserDataPersister
-
     App\Contract\DataPersister\GuestDataPersisterInterface:
         class: App\DataPersister\GuestDataPersister
 
@@ -38,3 +35,22 @@ services:
 
     App\Contract\DataPersister\RoomDataPersisterInterface:
         class: App\DataPersister\RoomDataPersister
+
+    App\Contract\DataPersister\UserDataPersisterInterface:
+        class: App\DataPersister\UserDataPersister
+
+    # Repositories:
+    App\Contract\Repository\GuestRepositoryInterface:
+        class: App\Repository\GuestRepository
+
+    App\Contract\Repository\OvernightStayRepositoryInterface:
+        class: App\Repository\OvernightStayRepository
+
+    App\Contract\Repository\ReservationRepositoryInterface:
+        class: App\Repository\ReservationRepository
+
+    App\Contract\Repository\RoomRepositoryInterface:
+        class: App\Repository\RoomRepository
+
+    App\Contract\Repository\UserRepositoryInterface:
+        class: App\Repository\UserRepository

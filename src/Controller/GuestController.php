@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Contract\DataPersister\GuestDataPersisterInterface;
+use App\Contract\Repository\GuestRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\GuestRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Guest;
 use App\Form\GuestFormType;
@@ -18,11 +18,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class GuestController extends AbstractController
 {
     /**
-     * @param GuestRepository $repository
+     * @param GuestRepositoryInterface $repository
      * @param GuestDataPersisterInterface $dataPersister
      */
     public function __construct(
-        private GuestRepository             $repository,
+        private GuestRepositoryInterface    $repository,
         private GuestDataPersisterInterface $dataPersister
     )
     {

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Contract\DataPersister\UserDataPersisterInterface;
+use App\Contract\Repository\UserRepositoryInterface;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Repository\UserRepository;
 use App\Service\StatisticsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,12 +19,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class DashboardController extends AbstractController
 {
     /**
-     * @param UserRepository $userRepository
+     * @param UserRepositoryInterface $userRepository
      * @param UserDataPersisterInterface $userDataPersister
      * @param StatisticsService $statisticsService
      */
     public function __construct(
-        private UserRepository             $userRepository,
+        private UserRepositoryInterface    $userRepository,
         private UserDataPersisterInterface $userDataPersister,
         private StatisticsService          $statisticsService
     )

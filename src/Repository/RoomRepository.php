@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Contract\Repository\RoomRepositoryInterface;
 use App\Entity\Room;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-final class RoomRepository extends ServiceEntityRepository
+final class RoomRepository extends ServiceEntityRepository implements RoomRepositoryInterface
 {
     /**
      * @param ManagerRegistry $registry
@@ -19,7 +20,7 @@ final class RoomRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public function getAvailable(): array
     {

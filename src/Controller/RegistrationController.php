@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Contract\DataPersister\UserDataPersisterInterface;
+use App\Contract\Repository\UserRepositoryInterface;
 use App\Form\RegistrationFormType;
-use App\Repository\UserRepository;
 use App\Service\EmailVerifierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,13 +19,13 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @param UserRepository $repository
+     * @param UserRepositoryInterface $repository
      * @param UserDataPersisterInterface $dataPersister
      * @param EmailVerifierService $emailVerifier
      * @param TranslatorInterface $translator
      */
     public function __construct(
-        private UserRepository             $repository,
+        private UserRepositoryInterface    $repository,
         private UserDataPersisterInterface $dataPersister,
         private EmailVerifierService       $emailVerifier,
         private TranslatorInterface        $translator

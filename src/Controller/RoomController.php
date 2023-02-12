@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Contract\DataPersister\RoomDataPersisterInterface;
+use App\Contract\Repository\RoomRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\RoomRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\RoomFormType;
 use App\Entity\Room;
@@ -18,11 +18,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class RoomController extends AbstractController
 {
     /**
-     * @param RoomRepository $repository
+     * @param RoomRepositoryInterface $repository
      * @param RoomDataPersisterInterface $dataPersister
      */
     public function __construct(
-        private RoomRepository             $repository,
+        private RoomRepositoryInterface    $repository,
         private RoomDataPersisterInterface $dataPersister
     )
     {

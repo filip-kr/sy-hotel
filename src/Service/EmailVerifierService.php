@@ -8,7 +8,7 @@ use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Address;
 
-class EmailVerifierService extends EmailVerifier
+final class EmailVerifierService extends EmailVerifier
 {
     /**
      * @param string $to
