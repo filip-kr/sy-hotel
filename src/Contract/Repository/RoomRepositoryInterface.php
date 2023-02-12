@@ -7,7 +7,7 @@ namespace App\Contract\Repository;
 interface RoomRepositoryInterface
 {
     /**
-     * @return array
+     * @return int
      */
-    public function getAvailable(): array;
+    public function getAvailableCount(): int;
 }

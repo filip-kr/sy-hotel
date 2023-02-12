@@ -18,4 +18,15 @@ final class ReservationRepository extends ServiceEntityRepository implements Res
     {
         parent::__construct($registry, Reservation::class);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCount(): int
+    {
+        $query = $this->createQueryBuilder('r');
+        $query->select('COUNT(r.id)');
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
 }

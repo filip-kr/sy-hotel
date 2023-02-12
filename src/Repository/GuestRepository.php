@@ -18,4 +18,15 @@ final class GuestRepository extends ServiceEntityRepository implements GuestRepo
     {
         parent::__construct($registry, Guest::class);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCount(): int
+    {
+        $query = $this->createQueryBuilder('g');
+        $query->select('COUNT(g.id)');
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
 }

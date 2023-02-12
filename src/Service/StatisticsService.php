@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Repository\GuestRepository;
-use App\Repository\OvernightStayRepository;
-use App\Repository\ReservationRepository;
-use App\Repository\RoomRepository;
+use App\Contract\Repository\GuestRepositoryInterface;
+use App\Contract\Repository\OvernightStayRepositoryInterface;
+use App\Contract\Repository\ReservationRepositoryInterface;
+use App\Contract\Repository\RoomRepositoryInterface;
 
 final class StatisticsService
 {
+
     /**
-     * @param GuestRepository $guestRepository
-     * @param OvernightStayRepository $overnightStayRepository
-     * @param ReservationRepository $reservationRepository
-     * @param RoomRepository $roomRepository
+     * @param GuestRepositoryInterface $guestRepository
+     * @param OvernightStayRepositoryInterface $overnightStayRepository
+     * @param ReservationRepositoryInterface $reservationRepository
+     * @param RoomRepositoryInterface $roomRepository
      */
     public function __construct(
-        private GuestRepository         $guestRepository,
-        private OvernightStayRepository $overnightStayRepository,
-        private ReservationRepository   $reservationRepository,
-        private RoomRepository          $roomRepository
+        private GuestRepositoryInterface         $guestRepository,
+        private OvernightStayRepositoryInterface $overnightStayRepository,
+        private ReservationRepositoryInterface   $reservationRepository,
+        private RoomRepositoryInterface          $roomRepository
     )
     {
     }
@@ -32,10 +33,10 @@ final class StatisticsService
     public function getDataCount(): array
     {
         return [
-            'guestCount' => count($this->guestRepository->findAll()),
-            'reservationCount' => count($this->reservationRepository->findAll()),
-            'activeStayCount' => count($this->overnightStayRepository->findBy(['isActive' => true])),
-            'availableRoomCount' => count($this->roomRepository->getAvailable())
+            'guestCount' => $this->guestRepository->getCount(),
+            'reservationCount' => $this->reservationRepository->getCount(),
+            'activeStayCount' => $this->overnightStayRepository->getActiveCount(),
+            'availableRoomCount' => $this->roomRepository->getAvailableCount()
         ];
     }
 

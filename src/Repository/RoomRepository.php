@@ -22,19 +22,18 @@ final class RoomRepository extends ServiceEntityRepository implements RoomReposi
     /**
      * @inheritDoc
      */
-    public function getAvailable(): array
+    public function getAvailableCount(): int
     {
-        $query = $this->createQueryBuilder('r')
-            ->select('r')
-            ->andWhere('
+        $query = $this->createQueryBuilder('r');
+        $query->select('COUNT(r.id)');
+        $query->andWhere('
 
             r NOT IN (SELECT IDENTITY(os.room) 
             FROM App\Entity\OvernightStay os 
-            WHERE os.isActive = true)
+            WHERE os.isActive = 1)
 
         ');
 
-        return $query->getQuery()
-            ->getResult();
+        return $query->getQuery()->getSingleScalarResult();
     }
 }

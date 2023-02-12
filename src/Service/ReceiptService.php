@@ -27,19 +27,19 @@ final class ReceiptService
     }
 
     /**
-     * @param OvernightStay|null $os
+     * @param OvernightStay $os
      * @return void
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function generateReceipt(?OvernightStay $os): void
+    public function generateReceipt(OvernightStay $os): void
     {
         $this->pdf->setOption('encoding', 'UTF8');
         header('Content-Type: application/pdf');
+
         echo $this->pdf->getOutputFromHtml($this->twig->render(
-            'private/overnightstays/receipt.html.twig',
-            [
+            'private/overnightstays/receipt.html.twig', [
                 'os' => $os,
                 'qrCode' => $this->generateQrCode()
             ]
@@ -51,8 +51,7 @@ final class ReceiptService
      */
     private function generateQrCode(): string
     {
-        $qrOptions = new QROptions(
-            [
+        $qrOptions = new QROptions([
                 'eccLevel' => QRCode::ECC_L,
                 'outputType' => QRCode::OUTPUT_MARKUP_SVG,
             ]

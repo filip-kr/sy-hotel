@@ -6,4 +6,8 @@ namespace App\Contract\Repository;
 
 interface ReservationRepositoryInterface
 {
+    /**
+     * @return int
+     */
+    public function getCount(): int;
 }

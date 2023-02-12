@@ -6,4 +6,8 @@ namespace App\Contract\Repository;
 
 interface OvernightStayRepositoryInterface
 {
+    /**
+     * @return int
+     */
+    public function getActiveCount(): int;
 }

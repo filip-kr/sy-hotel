@@ -18,4 +18,16 @@ final class OvernightStayRepository extends ServiceEntityRepository implements O
     {
         parent::__construct($registry, OvernightStay::class);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getActiveCount(): int
+    {
+        $query = $this->createQueryBuilder('os');
+        $query->select('COUNT(os.id)');
+        $query->andWhere('os.isActive = 1');
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
 }
