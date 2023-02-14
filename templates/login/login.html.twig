@@ -27,6 +27,7 @@
                                 <div class="d-grid">
                                     <input type="submit" class="btn btn-outline-dark" value="Prijava"/>
                                 </div>
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                 <input type="hidden" name="_target_path" value="/dashboard/index"/>
                             </form>
                         </div>
