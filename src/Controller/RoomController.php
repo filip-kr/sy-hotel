@@ -14,6 +14,11 @@ use App\Form\RoomFormType;
 use App\Entity\Room;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route(
+    path: '/room',
+    name: 'room_',
+    requirements: ['id' => '\d+']
+)]
 #[IsGranted('ROLE_USER')]
 class RoomController extends AbstractController
 {
@@ -31,7 +36,7 @@ class RoomController extends AbstractController
     /**
      * @return Response
      */
-    #[Route('/rooms', name: 'rooms')]
+    #[Route('/index', name: 'index')]
     public function index(): Response
     {
         $rooms = $this->repository->findAll();
@@ -45,7 +50,7 @@ class RoomController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/rooms/create', name: 'rooms-create')]
+    #[Route('/create', name: 'create')]
     public function create(Request $request): Response
     {
         $room = $this->dataPersister->create();
@@ -59,7 +64,7 @@ class RoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dataPersister->save($form->getData());
 
-            return $this->redirectToRoute('rooms');
+            return $this->redirectToRoute('room_index');
         }
 
         return $this->render('private/rooms/action.html.twig', [
@@ -72,7 +77,7 @@ class RoomController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/rooms/update/{id}', name: 'rooms-update')]
+    #[Route('/update/{id}', name: 'update')]
     public function update(Room $room, Request $request): Response
     {
         $form = $this->createForm(
@@ -84,7 +89,7 @@ class RoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dataPersister->save($form->getData());
 
-            return $this->redirectToRoute('rooms');
+            return $this->redirectToRoute('room_index');
         }
 
         return $this->render('private/rooms/action.html.twig', [
@@ -96,18 +101,18 @@ class RoomController extends AbstractController
      * @param Room $room
      * @return Response
      */
-    #[Route('/rooms/delete/{id}', name: 'rooms-delete')]
+    #[Route('/delete/{id}', name: 'delete')]
     public function delete(Room $room): Response
     {
         if ($room->getOvernightStays()) {
             foreach ($room->getOvernightStays() as $os) {
                 if ($os->isActive()) {
-                    return $this->redirectToRoute('rooms');
+                    return $this->redirectToRoute('room_index');
                 }
             }
         }
 
         $this->dataPersister->remove($room);
-        return $this->redirectToRoute('rooms');
+        return $this->redirectToRoute('room_index');
     }
 }

@@ -15,6 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route(
+    path: '/dashboard',
+    name: 'dashboard_',
+    requirements: ['id' => '\d+']
+)]
 #[IsGranted('ROLE_USER')]
 class DashboardController extends AbstractController
 {
@@ -34,7 +39,7 @@ class DashboardController extends AbstractController
     /**
      * @return Response
      */
-    #[Route('/dashboard', name: 'dashboard')]
+    #[Route('/index', name: 'index')]
     public function index(): Response
     {
         $users = $this->userRepository->findAll();
@@ -49,7 +54,7 @@ class DashboardController extends AbstractController
     /**
      * @return Response
      */
-    #[Route('/dashboard/reservationdata', name: 'dashboard-resdata')]
+    #[Route('/index/reservationdata', name: 'api_stats_data')]
     public function getSignInDates(): Response
     {
         return new Response(json_encode($this->statisticsService->getReservationMonths()));
@@ -60,7 +65,7 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/dashboard/updateuser/{id}', name: 'dashboard-userupdate')]
+    #[Route('/updateuser/{id}', name: 'update_user')]
     public function update(User $user, Request $request): Response
     {
         $form = $this->createForm(
@@ -78,7 +83,7 @@ class DashboardController extends AbstractController
             );
             $this->userDataPersister->save($form->getData());
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('dashboard_index');
         }
 
         return $this->render('private/dashboard/registration/register.html.twig', [
@@ -90,10 +95,10 @@ class DashboardController extends AbstractController
      * @param User $user
      * @return Response
      */
-    #[Route('/dashboard/deleteuser/{id}', name: 'dashboard-userdelete')]
+    #[Route('/deleteuser/{id}', name: 'delete_user')]
     public function delete(User $user): Response
     {
         $this->userDataPersister->remove($user);
-        return $this->redirectToRoute('dashboard');
+        return $this->redirectToRoute('dashboard_index');
     }
 }

@@ -14,6 +14,11 @@ use App\Entity\Guest;
 use App\Form\GuestFormType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route(
+    path: '/guest',
+    name: 'guest_',
+    requirements: ['id' => '\d+']
+)]
 #[IsGranted('ROLE_USER')]
 class GuestController extends AbstractController
 {
@@ -31,7 +36,7 @@ class GuestController extends AbstractController
     /**
      * @return Response
      */
-    #[Route('/guests', name: 'guests')]
+    #[Route('/index', name: 'index')]
     public function index(): Response
     {
         $guests = $this->repository->findAll();
@@ -45,7 +50,7 @@ class GuestController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/guests/create', name: 'guests-create')]
+    #[Route('/create', name: 'create')]
     public function create(Request $request): Response
     {
         $guest = $this->dataPersister->create();
@@ -59,7 +64,7 @@ class GuestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dataPersister->save($form->getData());
 
-            return $this->redirectToRoute('guests');
+            return $this->redirectToRoute('guest_index');
         }
 
         return $this->render('private/guests/action.html.twig', [
@@ -72,7 +77,7 @@ class GuestController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/guests/update/{id}', name: 'guests-update')]
+    #[Route('/update/{id}', name: 'update')]
     public function update(Guest $guest, Request $request): Response
     {
         $form = $this->createForm(
@@ -84,7 +89,7 @@ class GuestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dataPersister->save($form->getData());
 
-            return $this->redirectToRoute('guests');
+            return $this->redirectToRoute('guest_index');
         }
 
         return $this->render('private/guests/action.html.twig', [
@@ -96,14 +101,14 @@ class GuestController extends AbstractController
      * @param Guest $guest
      * @return Response
      */
-    #[Route('/guests/delete/{id}', name: 'guests-delete')]
+    #[Route('/delete/{id}', name: 'delete')]
     public function delete(Guest $guest): Response
     {
         if ($guest->getReservations()) {
-            return $this->redirectToRoute('guests');
+            return $this->redirectToRoute('guest_index');
         }
 
         $this->dataPersister->remove($guest);
-        return $this->redirectToRoute('guests');
+        return $this->redirectToRoute('guest_index');
     }
 }

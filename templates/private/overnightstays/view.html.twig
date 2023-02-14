@@ -5,7 +5,7 @@
     <div class="m-2">
         <div class="container-fluid">
             <div class="d-grid gap-2 mb-4">
-                <a href="{{ path('overnightstays-create') }}" class="btn btn-primary">Novo noćenje</a>
+                <a href="{{ path('overnightstay_create') }}" class="btn btn-primary">Novo noćenje</a>
             </div>
             <table class="table table-hover table-bordered" id="overnightStaysTable">
                 <thead>
@@ -54,13 +54,13 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item"
-                                           href="{{ path('overnightstays-changestatus', { id: os.id }) }}">Promijeni
+                                           href="{{ path('overnightstay_changestatus', { id: os.id }) }}">Promijeni
                                             status</a>
                                     </li>
                                     {% if os.isActive == false %}
                                         <li>
                                             <a class="dropdown-item delete-item"
-                                               href="{{ path('overnightstays-delete', { id: os.id }) }}">Obriši</a>
+                                               href="{{ path('overnightstay_delete', { id: os.id }) }}">Obriši</a>
                                         </li>
                                     {% endif %}
                                     <li>
@@ -68,7 +68,7 @@
                                     </li>
                                     <li>
                                         <a class="dropdown-item"
-                                           href="{{ path('overnightstays-print', { id: os.id }) }}" target="_blank"
+                                           href="{{ path('overnightstay_print_receipt', { id: os.id }) }}" target="_blank"
                                            rel="noopener noreferrer">Ispiši račun</a>
                                     </li>
                                 </ul>

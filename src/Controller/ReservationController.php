@@ -14,6 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\ReservationFormType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route(
+    path: '/reservation',
+    name: 'reservation_',
+    requirements: ['id' => '\d+']
+)]
 #[IsGranted('ROLE_USER')]
 class ReservationController extends AbstractController
 {
@@ -31,7 +36,7 @@ class ReservationController extends AbstractController
     /**
      * @return Response
      */
-    #[Route('/reservations', name: 'reservations')]
+    #[Route('/index', name: 'index')]
     public function index(): Response
     {
         $reservations = $this->repository->findAll();
@@ -45,7 +50,7 @@ class ReservationController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/reservations/create', name: 'reservations-create')]
+    #[Route('/create', name: 'create')]
     public function create(Request $request): Response
     {
         $reservation = $this->dataPersister->create();
@@ -58,7 +63,7 @@ class ReservationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dataPersister->save($form->getData());
-            return $this->redirectToRoute('reservations');
+            return $this->redirectToRoute('reservation_index');
 
         }
 
@@ -72,7 +77,7 @@ class ReservationController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/reservations/update/{id}', name: 'reservations-update')]
+    #[Route('/update/{id}', name: 'update')]
     public function update(Reservation $reservation, Request $request): Response
     {
         $form = $this->createForm(
@@ -83,7 +88,7 @@ class ReservationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dataPersister->save($form->getData());
-            return $this->redirectToRoute('reservations');
+            return $this->redirectToRoute('reservation_index');
         }
 
         return $this->render('private/reservations/action.html.twig', [
@@ -95,14 +100,14 @@ class ReservationController extends AbstractController
      * @param Reservation $reservation
      * @return Response
      */
-    #[Route('/reservations/delete/{id}', name: 'reservations-delete')]
+    #[Route('/delete/{id}', name: 'delete')]
     public function delete(Reservation $reservation): Response
     {
         if ($reservation->getOvernightStay() && $reservation->getOvernightStay()->isActive()) {
-            return $this->redirectToRoute('reservations');
+            return $this->redirectToRoute('reservation_index');
         }
 
         $this->dataPersister->remove($reservation);
-        return $this->redirectToRoute('reservations');
+        return $this->redirectToRoute('reservation_index');
     }
 }

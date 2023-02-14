@@ -62,7 +62,7 @@ class RegistrationController extends AbstractController
                 $email
             );
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('dashboard_index');
         }
 
         return $this->render('private/dashboard/registration/register.html.twig', [
@@ -97,6 +97,6 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('register');
         }
 
-        return $this->redirectToRoute('dashboard');
+        return $this->redirectToRoute('dashboard_index');
     }
 }

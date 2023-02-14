@@ -14,23 +14,23 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('dashboard') }}">Nadzorna ploča</a>
+                        <a class="nav-link" href="{{ path('dashboard_index') }}">Nadzorna ploča</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                            data-bs-toggle="dropdown">Programi</a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a class="dropdown-item" href="{{ path('rooms') }}">Sobe</a>
+                                <a class="dropdown-item" href="{{ path('room_index') }}">Sobe</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ path('guests') }}">Gosti</a>
+                                <a class="dropdown-item" href="{{ path('guest_index') }}">Gosti</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ path('reservations') }}">Rezervacije</a>
+                                <a class="dropdown-item" href="{{ path('reservation_index') }}">Rezervacije</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ path('overnightstays') }}">Noćenja</a>
+                                <a class="dropdown-item" href="{{ path('overnightstay_index') }}">Noćenja</a>
                             </li>
                         </ul>
                     </li>

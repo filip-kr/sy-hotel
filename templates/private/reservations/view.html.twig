@@ -5,7 +5,7 @@
     <div class="m-2">
         <div class="container-fluid">
             <div class="d-grid gap-2 mb-4">
-                <a href="{{ path('reservations-create') }}" class="btn btn-primary">Nova rezervacija</a>
+                <a href="{{ path('reservation_create') }}" class="btn btn-primary">Nova rezervacija</a>
             </div>
             <table class="table table-hover table-bordered" id="reservationsTable">
                 <thead>
@@ -40,12 +40,12 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item"
-                                           href="{{ path('reservations-update', { id: reservation.id }) }}">Uredi</a>
+                                           href="{{ path('reservation_update', { id: reservation.id }) }}">Uredi</a>
                                     </li>
                                     {% if reservation.overnightStay is null or reservation.overnightStay.isActive == false %}
                                         <li>
                                             <a class="dropdown-item delete-item"
-                                               href="{{ path('reservations-delete', { id: reservation.id }) }}">Obriši</a>
+                                               href="{{ path('reservation_delete', { id: reservation.id }) }}">Obriši</a>
                                         </li>
                                     {% endif %}
                                 </ul>

@@ -18,6 +18,11 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+#[Route(
+    path: '/overnightstay',
+    name: 'overnightstay_',
+    requirements: ['id' => '\d+']
+)]
 #[IsGranted('ROLE_USER')]
 class OvernightStayController extends AbstractController
 {
@@ -37,7 +42,7 @@ class OvernightStayController extends AbstractController
     /**
      * @return Response
      */
-    #[Route('/overnightstays', name: 'overnightstays')]
+    #[Route('/index', name: 'index')]
     public function index(): Response
     {
         $overnightStays = $this->repository->findAll();
@@ -51,7 +56,7 @@ class OvernightStayController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/overnightstays/create', name: 'overnightstays-create')]
+    #[Route('/create', name: 'create')]
     public function create(Request $request): Response
     {
         $overnightStay = $this->dataPersister->create();
@@ -65,7 +70,7 @@ class OvernightStayController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dataPersister->save($form->getData());
 
-            return $this->redirectToRoute('overnightstays');
+            return $this->redirectToRoute('overnightstay_index');
         }
 
         return $this->render('private/overnightstays/action.html.twig', [
@@ -77,29 +82,29 @@ class OvernightStayController extends AbstractController
      * @param OvernightStay $overnightStay
      * @return Response
      */
-    #[Route('/overnightstays/changestatus/{id}', name: 'overnightstays-changestatus')]
+    #[Route('/changestatus/{id}', name: 'changestatus')]
     public function changeStatus(OvernightStay $overnightStay): Response
     {
         $reverseStatus = !$overnightStay->isActive();
         $overnightStay->setIsActive($reverseStatus);
         $this->dataPersister->save($overnightStay);
 
-        return $this->redirectToRoute('overnightstays');
+        return $this->redirectToRoute('overnightstay_index');
     }
 
     /**
      * @param OvernightStay $overnightStay
      * @return Response
      */
-    #[Route('/overnightstays/delete/{id}', name: 'overnightstays-delete')]
+    #[Route('/delete/{id}', name: 'delete')]
     public function delete(OvernightStay $overnightStay): Response
     {
         if ($overnightStay->isActive()) {
-            return $this->redirectToRoute('overnightstays');
+            return $this->redirectToRoute('overnightstay_index');
         }
 
         $this->dataPersister->remove($overnightStay);
-        return $this->redirectToRoute('overnightstays');
+        return $this->redirectToRoute('overnightstay_index');
     }
 
     /**
@@ -109,7 +114,7 @@ class OvernightStayController extends AbstractController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    #[Route('/overnightstays/print/{id}', name: 'overnightstays-print')]
+    #[Route('/print/{id}', name: 'print_receipt')]
     public function printReceipt(OvernightStay $overnightStay): void
     {
         if ($overnightStay->isActive()) {
