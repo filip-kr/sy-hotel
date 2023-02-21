@@ -1,12 +1,15 @@
 # Symfony Hotel
+
 ## Pametni sustav upravljanja hotelom, sada u Symfony izdanju
 
 ### Opis
+
 Web aplikacija koja omogućuje hotelskim operaterima upravljati podacima objekta. </br>
 **sy-hotel** je [pp25-zavrsni](https://github.com/filip-kr/pp25-zavrsni/) prepravljen u Symfony 6 radnom okviru. </br>
 Sačuvane su sve funkcionalnosti uz neke manje preinake.
 
 ### Galerija
+
 <p float="left">
   <img src="https://user-images.githubusercontent.com/102315034/208886740-96e5fb50-33e4-4ac2-8ec3-820572f312fd.png" width="300"/>
   <img src="https://user-images.githubusercontent.com/102315034/208886744-e078cec1-fd95-4fe6-adb1-1d223d93e4a3.png" width="300"/>
